@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: 'kotlin-kapt'
+
 android {
     namespace 'com.baysoftware.bayfit'
     compileSdk 34
@@ -14,6 +16,10 @@ android {
         versionCode 1
         versionName "1.0"
 
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
