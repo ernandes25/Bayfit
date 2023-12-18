@@ -3,12 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ranningactivity"
-    app:startDestination="@id/fragmentA">
+    app:startDestination="@id/fragmentA"
+
+    >
     <fragment
         android:id="@+id/fragmentA"
         android:name="com.baysoftware.bayfit.FragmentA"
         android:label=""
-        tools:layout="@layout/fragment_a">
+        tools:layout="@layout/fragment_a"
+
+
+        >
         <action
             android:id="@+id/action_fragmentA_to_fragmentB"
             app:destination="@id/fragmentB" />
