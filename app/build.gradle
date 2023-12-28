@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply plugin: 'kotlin-kapt'
+
 android {
     namespace 'com.baysoftware.bayfit'
     compileSdk 34
@@ -14,6 +16,10 @@ android {
         versionCode 1
         versionName "1.0"
 
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
@@ -42,5 +48,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
+
 
 }

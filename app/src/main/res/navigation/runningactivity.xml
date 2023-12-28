@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ranningactivity"
     app:startDestination="@id/fragmentA">
+
     <fragment
         android:id="@+id/fragmentA"
         android:name="com.baysoftware.bayfit.FragmentA"
@@ -13,6 +14,7 @@
             android:id="@+id/action_fragmentA_to_fragmentB"
             app:destination="@id/fragmentB" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentB"
         android:name="com.baysoftware.bayfit.FragmentB"
@@ -23,5 +25,6 @@
             android:id="@+id/action_fragmentB_to_fragmentA"
             app:destination="@id/fragmentA" />
     </fragment>
+
 </navigation>
 
