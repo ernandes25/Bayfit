@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentB">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/timeTV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/purple_700"
-        tools:text="@string/fragment_b"
+        android:text="00:00"
+        android:padding="30dp"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:background="@color/black"
 
-        android:gravity="end"/>
+        />
+
+    <ImageButton
+        android:id="@+id/imageButtonParar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/black"
+        android:contentDescription="@string/button_descriptionStop"
+        android:layout_gravity="center"
+
+        android:src="@drawable/ic_pause"
+
+        />
 
 </FrameLayout>
+
+</layout>

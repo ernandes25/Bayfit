@@ -3,7 +3,8 @@
     <string name="button_iniciar">Iniciar</string>
     <string name="button_config">Configurações</string>
     <string name="button_history">Histórico</string>
-    <string name="button_description">Clique para iniciar</string>
+    <string name="button_descriptionStart">Clique para iniciar</string>
+    <string name="button_descriptionStop">Clique para parar</string>
     <string name="fragment_a">Fragment A</string>
     <string name="fragment_b">Fragment B</string>
 

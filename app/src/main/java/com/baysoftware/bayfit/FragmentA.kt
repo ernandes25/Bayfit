@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.baysoftware.bayfit.databinding.FragmentABinding
 
 class FragmentA : Fragment() {
@@ -26,6 +29,10 @@ class FragmentA : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.imageButtonIniciar.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentA_to_fragmentB)
+
+
+
         }
     }
 }
+

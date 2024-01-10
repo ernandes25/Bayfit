@@ -3,11 +3,10 @@ package com.baysoftware.bayfit
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import java.util.DuplicateFormatFlagsException
 import java.util.*
 import java.util.TimerTask
 
-class TimeService : Service() {
+class TimerService : Service() {
     override fun onBind(p0: Intent): IBinder? = null
 
     private val timer = Timer()
