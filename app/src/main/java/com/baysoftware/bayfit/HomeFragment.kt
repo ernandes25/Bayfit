@@ -21,16 +21,22 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imageButtonIniciar.setOnClickListener {
+
+
+
             findNavController().navigate(R.id.action_fragmentA_to_fragmentB)
-
-
-
         }
     }
-}
+
+
+
+    }
+
+
 

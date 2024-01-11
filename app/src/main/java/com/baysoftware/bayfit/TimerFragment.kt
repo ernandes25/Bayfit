@@ -17,12 +17,12 @@ import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
 
-class TimerFragment : Fragment () {
+class TimerFragment : Fragment() {
 
     private lateinit var binding: FragmentTimerBinding
     private lateinit var serviceIntent: Intent
     private var time = 0.0
-    val timerStarted = false
+    var timerStarted = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,11 +31,23 @@ class TimerFragment : Fragment () {
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
 
-        binding.imageButtonParar.setOnClickListener { startStopTimer() }
+
 
         serviceIntent = Intent(requireContext(), TimerService::class.java)
-        registerReceiver(requireContext(), updateTime, IntentFilter(TimerService.TIMER_UPDATE), RECEIVER_NOT_EXPORTED)
+        registerReceiver(
+            requireContext(),
+            updateTime,
+            IntentFilter(TimerService.TIMER_UPDATE),
+            RECEIVER_NOT_EXPORTED
+        )
         return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.controlButton.setOnClickListener { startStopTimer() }
+        startStopTimer()
 
     }
 
@@ -43,11 +55,25 @@ class TimerFragment : Fragment () {
     private fun startStopTimer() {
         if (timerStarted)
             stopTimer()
+        else
+            startTimer()
+
     }
+
+    private fun startTimer() {
+
+        requireActivity().startService(serviceIntent)
+        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
+
+
+        timerStarted = true
+    }
+
 
     private fun stopTimer() {
         requireActivity().stopService(serviceIntent)
-        binding.imageButtonParar.setImageResource (R.drawable.ic_play)
+        binding.controlButton.setImageResource(R.drawable.ic_play)
+        timerStarted = false
 
     }
 
@@ -61,9 +87,8 @@ class TimerFragment : Fragment () {
     private fun getTimeStringFromDouble(time: Double): String {
         val resultInt = time.roundToInt()
         val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 / 3600
-        val seconds = resultInt % 86400 / 3600
-
+        val minutes = resultInt % 86400 / 1440
+        val seconds = resultInt
         return makeTimeString(hours, minutes, seconds)
 
     }
