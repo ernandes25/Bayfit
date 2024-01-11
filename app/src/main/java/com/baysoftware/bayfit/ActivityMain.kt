@@ -1,19 +1,12 @@
 package com.baysoftware.bayfit
 
-import android.content.BroadcastReceiver
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import com.baysoftware.bayfit.databinding.ActivityMainBinding
-import kotlin.math.roundToInt
 
 
-class MainActivity : AppCompatActivity() {
+class ActivityMain : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

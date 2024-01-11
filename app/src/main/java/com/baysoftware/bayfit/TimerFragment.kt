@@ -12,16 +12,14 @@ import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.baysoftware.bayfit.databinding.FragmentBBinding
+import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
 
-class FragmentB : Fragment () {
+class TimerFragment : Fragment () {
 
-    private lateinit var binding: FragmentBBinding
-
-
+    private lateinit var binding: FragmentTimerBinding
     private lateinit var serviceIntent: Intent
     private var time = 0.0
     val timerStarted = false
@@ -31,7 +29,7 @@ class FragmentB : Fragment () {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_a, container, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
 
         binding.imageButtonParar.setOnClickListener { startStopTimer() }
 

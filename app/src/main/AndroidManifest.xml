@@ -14,7 +14,7 @@
         >
 
         <activity
-            android:name="com.baysoftware.bayfit.MainActivity"
+            android:name="com.baysoftware.bayfit.ActivityMain"
             android:exported="true"
             android:taskAffinity="@string/common_open_on_phone">
             <intent-filter>
