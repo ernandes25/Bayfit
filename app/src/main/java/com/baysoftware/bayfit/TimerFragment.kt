@@ -22,12 +22,10 @@ class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var serviceIntent: Intent
     private var time = 0.0
-    var timerStarted = false
+    var timerStarted = true
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
 
@@ -43,6 +41,9 @@ class TimerFragment : Fragment() {
         return binding.root
 
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,10 +73,13 @@ class TimerFragment : Fragment() {
 
     private fun stopTimer() {
         requireActivity().stopService(serviceIntent)
-        binding.controlButton.setImageResource(R.drawable.ic_play)
+        binding.controlButton.setImageResource(R.drawable.ic_continue)
         timerStarted = false
 
     }
+
+
+
 
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
