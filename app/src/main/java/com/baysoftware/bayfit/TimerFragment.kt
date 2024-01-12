@@ -26,6 +26,7 @@ class TimerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
+
         serviceIntent = Intent(requireContext(), TimerService::class.java)
         registerReceiver(
             requireContext(),
