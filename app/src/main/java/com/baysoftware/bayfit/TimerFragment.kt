@@ -15,10 +15,8 @@ import androidx.fragment.app.Fragment
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import kotlin.math.roundToInt
 
-// TODO: Rename parameter arguments, choose names that match
 
 class TimerFragment : Fragment() {
-
     private lateinit var binding: FragmentTimerBinding
     private lateinit var serviceIntent: Intent
     private var time = 0.0
@@ -28,9 +26,6 @@ class TimerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
-
-
-
         serviceIntent = Intent(requireContext(), TimerService::class.java)
         registerReceiver(
             requireContext(),
@@ -39,48 +34,32 @@ class TimerFragment : Fragment() {
             RECEIVER_NOT_EXPORTED
         )
         return binding.root
-
     }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.controlButton.setOnClickListener { startStopTimer() }
         startStopTimer()
-
     }
-
 
     private fun startStopTimer() {
         if (timerStarted)
             stopTimer()
         else
             startTimer()
-
     }
 
     private fun startTimer() {
-
         requireActivity().startService(serviceIntent)
         serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
-
-
         timerStarted = true
     }
-
 
     private fun stopTimer() {
         requireActivity().stopService(serviceIntent)
         binding.controlButton.setImageResource(R.drawable.ic_continue)
         timerStarted = false
-
     }
-
-
-
-
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
@@ -94,18 +73,8 @@ class TimerFragment : Fragment() {
         val minutes = resultInt % 86400 / 1440
         val seconds = resultInt
         return makeTimeString(hours, minutes, seconds)
-
     }
 
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
         String.format("%02d:%02d", min, sec) //horas não será usada
-
 }
-
-
-
-
-
-
-
-
