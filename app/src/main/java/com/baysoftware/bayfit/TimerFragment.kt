@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import kotlin.math.roundToInt
 
-
 class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var serviceIntent: Intent
@@ -24,7 +23,7 @@ class TimerFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
         serviceIntent = Intent(requireContext(), TimerService::class.java)
         registerReceiver(
@@ -76,5 +75,5 @@ class TimerFragment : Fragment() {
     }
 
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
-        String.format("%02d:%02d", min, sec) //horas não será usada
+        String.format("%02d:%02d", min, sec)
 }
