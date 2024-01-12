@@ -87,14 +87,14 @@ class TimerFragment : Fragment() {
     private fun getTimeStringFromDouble(time: Double): String {
         val resultInt = time.roundToInt()
         val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 / 1440
-        val seconds = resultInt
+        val minutes = resultInt % 86400 % 3600 / 60
+        val seconds = resultInt % 86400 % 3600 % 60
         return makeTimeString(hours, minutes, seconds)
 
     }
 
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
-        String.format("%02d:%02d", min, sec) //horas não será usada
+        String.format("%02d:%02d:%02d", hour, min, sec)
 
 }
 

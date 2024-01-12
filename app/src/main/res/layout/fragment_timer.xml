@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/black"
         android:padding="30dp"
-        android:text="00:00"
+        android:text="00:00.00"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="50sp"
