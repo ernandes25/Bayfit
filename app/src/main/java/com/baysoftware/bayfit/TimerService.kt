@@ -15,6 +15,7 @@ class TimerService : Service() {
         timer.scheduleAtFixedRate(TimeTask(time), 0, 1000)
         return START_NOT_STICKY
     }
+
     override fun onDestroy() {
         timer.cancel()
         super.onDestroy()
@@ -28,16 +29,9 @@ class TimerService : Service() {
             sendBroadcast(intent)
         }
     }
+
     companion object {
         const val TIMER_UPDATE = "timerUpdated"
         const val TIME_EXTRA = "timeExtra"
     }
-
 }
-
-
-
-
-
-
-

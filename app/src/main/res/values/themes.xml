@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
-    <!-- Base application theme. -->
-    <style name="Bayfit.Theme" parent="Theme.AppCompat.NoActionBar">
-        <!--            &lt;!&ndash; Customize your light theme here. &ndash;&gt;-->
-        <!--            &lt;!&ndash; <item name="colorPrimary">@color/my_light_primary</item> &ndash;&gt;-->
-
-        <item name="windowNoTitle">true</item>
+       <style name="Bayfit.Theme" parent="Theme.AppCompat.NoActionBar">
+                <item name="windowNoTitle">true</item>
         <item name="windowActionBar">true</item>
-
-
-
     </style>
-
-    <!--        <style name="Theme.PrimeiroApp" parent="Theme.AppCompat.Light.NoActionBar" />-->
-
-
 </resources>
