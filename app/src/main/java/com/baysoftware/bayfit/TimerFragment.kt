@@ -51,12 +51,8 @@ class TimerFragment : Fragment() {
     }
 
     private fun startTimer() {
-
-
         serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
-
         requireActivity().startService(serviceIntent)
-
         timerStarted = true
     }
 
