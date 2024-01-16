@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/fragmentA"
-        android:name="com.baysoftware.bayfit.FragmentA"
+        android:name="com.baysoftware.bayfit.HomeFragment"
         android:label=""
-        tools:layout="@layout/fragment_a">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_fragmentA_to_fragmentB"
             app:destination="@id/fragmentB" />
@@ -17,9 +17,9 @@
 
     <fragment
         android:id="@+id/fragmentB"
-        android:name="com.baysoftware.bayfit.FragmentB"
+        android:name="com.baysoftware.bayfit.TimerFragment"
         android:label="fragment_b"
-        tools:layout="@layout/fragment_b">
+        tools:layout="@layout/fragment_timer">
 
         <action
             android:id="@+id/action_fragmentB_to_fragmentA"

@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.baysoftware.bayfit.databinding.FragmentABinding
+import com.baysoftware.bayfit.databinding.FragmentHomeBinding
 
-class FragmentA : Fragment() {
+class HomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentABinding
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_a, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
         return binding.root
     }
 
