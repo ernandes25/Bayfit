@@ -26,7 +26,6 @@ class TimerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
-
         serviceIntent = Intent(requireContext(), TimerService::class.java)
         registerReceiver(
             requireContext(),
@@ -40,7 +39,15 @@ class TimerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.controlButton.setOnClickListener { startStopTimer() }
+        binding.controlButton.setOnLongClickListener { resetTimer() }
         startStopTimer()
+    }
+
+    private fun resetTimer(): Boolean {
+        stopTimer()
+        time = 0.0
+        binding.timeTV.text = getTimeStringFromDouble(time)
+        return true
     }
 
     private fun startStopTimer() {
