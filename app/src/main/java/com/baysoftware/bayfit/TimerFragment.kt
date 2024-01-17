@@ -53,6 +53,7 @@ class TimerFragment : Fragment() {
     private fun startTimer() {
         serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
         requireActivity().startService(serviceIntent)
+        binding.controlButton.setImageResource(R.drawable.ic_pause)
         timerStarted = true
     }
 
