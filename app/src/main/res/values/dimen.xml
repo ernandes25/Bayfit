@@ -2,5 +2,6 @@
 <resources>
     <dimen name="button_margin">16dp</dimen>
     <dimen name="button_height">48dp</dimen>
-    <dimen name="text_size_timer">30sp</dimen>
+    <dimen name="text_size_timer">40sp</dimen>
+    <dimen name="text_size_timer_small">10sp</dimen>
 </resources>

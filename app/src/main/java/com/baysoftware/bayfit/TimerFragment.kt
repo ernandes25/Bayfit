@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
@@ -38,7 +39,7 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.controlButton.setOnClickListener { startStopTimer() }
+        binding.controlButton.setOnClickListener { showButtonGreen() }
         binding.controlButton.setOnLongClickListener { resetTimer() }
         startStopTimer()
     }
@@ -48,6 +49,21 @@ class TimerFragment : Fragment() {
         time = 0.0
         binding.timeTV.text = getTimeStringFromDouble(time)
         return true
+    }
+
+    private fun showButtonGreen() {
+        if (timerStarted)
+            binding.timeTV.setTextColor(resources.getColor(R.color.red, null))
+        else
+            controlPause()
+        binding.controlButton.setImageResource(R.drawable.ic_continue)
+        binding.timeTV.setTextSize(resources.getDimension(R.dimen.text_size_timer_small))
+        binding.timeTV2.isVisible = true
+    }
+
+    private fun controlPause() {
+        if (timerStarted)
+            binding.controlButton.setImageResource(R.drawable.ic_pause)
     }
 
     private fun startStopTimer() {
@@ -66,9 +82,9 @@ class TimerFragment : Fragment() {
 
     private fun stopTimer() {
         requireActivity().stopService(serviceIntent)
-        binding.controlButton.setImageResource(R.drawable.ic_continue)
         timerStarted = false
     }
+
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
@@ -87,7 +103,7 @@ class TimerFragment : Fragment() {
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
         String.format("%02d:%02d:%02d", hour, min, sec)
 
-    companion object{
+    companion object {
         const val TOTAL_MINUTES_IN_DAY = 86400
         const val TOTAL_MINUTES_IN_HOUR = 3600
         const val TOTAL_HOURS = 60
