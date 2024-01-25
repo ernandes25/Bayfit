@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -21,7 +22,7 @@ class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var serviceIntent: Intent
     private var time = 0.0
-    var timerStarted = false
+    private var timerStarted = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,42 +44,36 @@ class TimerFragment : Fragment() {
         binding.resumeButton.setOnClickListener { resumeTraining() }
         //TODO: Implementar navegação para tela final usando a alinha baixo.
         // binding.controlButtonRest.setOnLongClickListener { resetTimer() }
-        startStopTimer()
+
+        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
+        requireActivity().startService(serviceIntent)
     }
 
     private fun pauseTimer() {
-            binding.primaryTimer.setTextColor(resources.getColor(R.color.red, null))
-            binding.primaryTimer.setTextSize(resources.getDimension(R.dimen.text_size_timer_small))
-            binding.secondaryTimer.isVisible = true
-            binding.resumeButton.isVisible = true
-            binding.pauseButton.isVisible = false
+        timerStarted = false
+        binding.resumeButton.isVisible = true
+        binding.pauseButton.isVisible = false
+
+        binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
+        // binding.primaryTimer.text = "00:00:00" // TODO: iniciar contador decrescente
+
+        binding.secondaryTimer.isInvisible = false
+        binding.secondaryTimer.text = binding.primaryTimer.text
     }
 
     private fun resumeTraining() {
-(timerStarted)
-        binding.secondaryTimer.isVisible = false
-        binding.primaryTimer.textSize = resources.getDimension(R.dimen.text_size_timer2)
+        timerStarted = true
         binding.resumeButton.isVisible = false
         binding.pauseButton.isVisible = true
+
         binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
+        binding.primaryTimer.text = binding.secondaryTimer.text
+
+        binding.secondaryTimer.isInvisible = true
     }
 
-    private fun startStopTimer() {
-        if (timerStarted)
-            stopTimer()
-        else
-            startTimer()
-    }
-
-    private fun startTimer() {
-        serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
-        requireActivity().startService(serviceIntent)
-        binding.pauseButton.setImageResource(R.drawable.ic_pause)
-        binding.pauseButton.isVisible = true
-        binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
-        timerStarted = true
-    }
-
+    // TODO: este método será utilizado quando o usuário finalizar o treino
+    @Suppress("unused")
     private fun stopTimer() {
         requireActivity().stopService(serviceIntent)
         timerStarted = false
@@ -87,10 +82,15 @@ class TimerFragment : Fragment() {
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-            binding.primaryTimer.text = getTimeStringFromDouble(time)
+            if (timerStarted) {
+                binding.primaryTimer.text = getTimeStringFromDouble(time)
+            } else {
+                binding.secondaryTimer.text = getTimeStringFromDouble(time)
+            }
         }
     }
 
+    // TODO: colocar este método em arquivo de extension functions
     private fun getTimeStringFromDouble(time: Double): String {
         val resultInt = time.roundToInt()
         val hours = resultInt % TOTAL_MINUTES_IN_DAY / TOTAL_MINUTES_IN_HOUR
@@ -99,6 +99,7 @@ class TimerFragment : Fragment() {
         return makeTimeString(hours, minutes, seconds)
     }
 
+    // TODO: colocar este método em arquivo de extension functions
     private fun makeTimeString(hour: Int, min: Int, sec: Int): String =
         String.format("%02d:%02d:%02d", hour, min, sec)
 
