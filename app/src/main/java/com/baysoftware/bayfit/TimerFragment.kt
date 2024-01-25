@@ -39,31 +39,28 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.controlButton.setOnClickListener { showButtonGreen() }
-        binding.controlButton.setOnLongClickListener { resetTimer() }
+        binding.pauseButton.setOnClickListener { pauseTimer() }
+        binding.resumeButton.setOnClickListener { resumeTraining() }
+        //TODO: Implementar navegação para tela final usando a alinha baixo.
+        // binding.controlButtonRest.setOnLongClickListener { resetTimer() }
         startStopTimer()
     }
 
-    private fun resetTimer(): Boolean {
-        stopTimer()
-        time = 0.0
-        binding.timeTV.text = getTimeStringFromDouble(time)
-        return true
+    private fun pauseTimer() {
+            binding.primaryTimer.setTextColor(resources.getColor(R.color.red, null))
+            binding.primaryTimer.setTextSize(resources.getDimension(R.dimen.text_size_timer_small))
+            binding.secondaryTimer.isVisible = true
+            binding.resumeButton.isVisible = true
+            binding.pauseButton.isVisible = false
     }
 
-    private fun showButtonGreen() {
-        if (timerStarted)
-            binding.timeTV.setTextColor(resources.getColor(R.color.red, null))
-        else
-            controlPause()
-        binding.controlButton.setImageResource(R.drawable.ic_continue)
-        binding.timeTV.setTextSize(resources.getDimension(R.dimen.text_size_timer_small))
-        binding.timeTV2.isVisible = true
-    }
-
-    private fun controlPause() {
-        if (timerStarted)
-            binding.controlButton.setImageResource(R.drawable.ic_pause)
+    private fun resumeTraining() {
+(timerStarted)
+        binding.secondaryTimer.isVisible = false
+        binding.primaryTimer.textSize = resources.getDimension(R.dimen.text_size_timer2)
+        binding.resumeButton.isVisible = false
+        binding.pauseButton.isVisible = true
+        binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
     }
 
     private fun startStopTimer() {
@@ -76,7 +73,9 @@ class TimerFragment : Fragment() {
     private fun startTimer() {
         serviceIntent.putExtra(TimerService.TIME_EXTRA, time)
         requireActivity().startService(serviceIntent)
-        binding.controlButton.setImageResource(R.drawable.ic_pause)
+        binding.pauseButton.setImageResource(R.drawable.ic_pause)
+        binding.pauseButton.isVisible = true
+        binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
         timerStarted = true
     }
 
@@ -88,7 +87,7 @@ class TimerFragment : Fragment() {
     private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-            binding.timeTV.text = getTimeStringFromDouble(time)
+            binding.primaryTimer.text = getTimeStringFromDouble(time)
         }
     }
 
