@@ -19,49 +19,46 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/primaryTimer"
-                android:layout_width="match_parent"
+                android:id="@+id/secondaryTimer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:contentDescription="@string/cronometer_initial_value"
+                android:gravity="center"
                 android:text="@string/cronometer_initial_value"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:textAlignment="center"
                 android:textColor="@color/red"
-                android:textSize="@dimen/text_size_timer"
+                android:textSize="@dimen/text_size_secondary_timer"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/secondaryTimer"
-                android:layout_width="wrap_content"
+                android:id="@+id/primaryTimer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                android:contentDescription="@string/cronometer_initial_value"
-                android:gravity="center"
-                android:text="15:30:25"
-                android:textColor="@color/green"
-                android:textSize="@dimen/text_size_timer"
-                android:visibility="gone"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="@string/cronometer_initial_value"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_primary_timer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/secondaryTimer"/>
 
+            <!-- TODO: consertar background do ícone de pause -->
             <ImageButton
                 android:id="@+id/pauseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:background="@color/black"
                 android:contentDescription="@string/button_description_stop"
                 android:src="@drawable/ic_pause"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/secondaryTimer"
-                app:layout_constraintVertical_bias="0.75"
-                tools:visibility="invisible"/>
+                app:layout_constraintTop_toBottomOf="@+id/primaryTimer"/>
 
             <ImageButton
                 android:id="@+id/resumeButton"
@@ -71,31 +68,30 @@
                 android:background="@color/black"
                 android:contentDescription="@string/button_description_stop"
                 android:src="@drawable/ic_continue"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/secondaryTimer"
-                app:layout_constraintVertical_bias="0.75"
+                app:layout_constraintTop_toBottomOf="@+id/primaryTimer"
                 tools:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/textRest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:contentDescription="@string/cronometer_initial_value"
                 android:gravity="center"
-                android:text="Descanso..."
+                android:text="@string/text_rest"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_timer_small"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/secondaryTimer"
-                app:layout_constraintVertical_bias="0.75"
-                tools:visibility="visible"/>
+                app:layout_constraintTop_toBottomOf="@+id/primaryTimer"
+                app:layout_constraintVertical_bias="0.0"
+                tools:visibility="invisible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Font sizes -->
+    <dimen name="text_size_primary_timer">40sp</dimen>
+    <dimen name="text_size_secondary_timer">20sp</dimen>
+
+    <!-- Margins -->
+    <dimen name="margin_extra_small">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+    <dimen name="margin_extra_large">64dp</dimen>
+
+    <!-- Buttons -->
     <dimen name="button_margin">16dp</dimen>
     <dimen name="button_height">48dp</dimen>
-    <dimen name="text_size_timer">40sp</dimen>
-    <dimen name="text_size_timer2">20sp</dimen>
+
+    <!-- Misc -->
     <dimen name="text_size_timer_small">12sp</dimen>
-    <dimen name="margin_medium">16dp</dimen>
     <dimen name="padding_timeTV">30dp</dimen>
     <dimen name="margin_top_timeTV2">50dp</dimen>
-    <dimen name="layout_height_timeTV">44dp</dimen>
-    <dimen name="margin_small">12dp</dimen>
-    <dimen name="margin_large">32dp</dimen>
-    <dimen name="margin_large_large">64dp</dimen>
-
  </resources>
