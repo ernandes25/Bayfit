@@ -77,7 +77,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun resumeTraining() {
-        (timerStarted) = true
+        timerStarted = true
         requireActivity().stopService(decreasingTimerServiceIntent)
         binding.resumeButton.isInvisible = true
         binding.pauseButton.isInvisible = false
