@@ -7,4 +7,6 @@
     <string name="button_description_stop">Clique para parar</string>
     <string name="fragment_a">Fragment A</string>
     <string name="fragment_b">Fragment B</string>
-</resources>
+    <string name="cronometer_initial_value">00:00:00</string>
+    <string name="text_rest">Descanso…</string>
+   </resources>
