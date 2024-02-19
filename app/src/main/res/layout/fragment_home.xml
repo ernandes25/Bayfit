@@ -8,8 +8,8 @@
         android:id="@+id/containerConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/black"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,10 +52,10 @@
             android:text="@string/button_config"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_history"
@@ -67,10 +67,10 @@
             android:text="@string/button_history"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@id/button_config"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_config" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

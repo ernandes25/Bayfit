@@ -14,8 +14,10 @@ import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.content.getSystemService
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import kotlin.math.roundToInt
 
@@ -24,6 +26,9 @@ class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var increasingTimerServiceIntent: Intent
     private lateinit var decreasingTimerServiceIntent: Intent
+
+
+
     private var increasingTime = 0.00
     private var decreasingTime = 5.00
     private var timerStarted = true
@@ -37,6 +42,7 @@ class TimerFragment : Fragment() {
         decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
         decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
 
+
         registerReceiver(
             requireContext(),
             updateIncreasingTime,
@@ -48,13 +54,25 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        binding.resumeButton.setOnLongClickListener {
+            findNavController().navigate(R.id.action_timerFragment_to_fragment_result)
+            binding.resumeButton.isVisible
+        }
+
+
         binding.pauseButton.setOnClickListener { pauseTimer() }
+
         binding.resumeButton.setOnClickListener { resumeTraining() }
         //TODO: Implementar navegação para tela final usando a alinha baixo.
-        // binding.controlButtonRest.setOnLongClickListener { resetTimer() }
+     //   binding.resumeButton.setOnLongClickListener {pauseTimer()  }
 
         requireActivity().startService(increasingTimerServiceIntent)
+
     }
+
+
 
     private fun Fragment.vibrate(duration: Long = 500) {
         val vibrator = requireContext().getSystemService() as? Vibrator
