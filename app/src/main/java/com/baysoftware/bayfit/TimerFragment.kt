@@ -13,8 +13,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.content.getSystemService
+import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -28,9 +28,8 @@ class TimerFragment : Fragment() {
     private lateinit var decreasingTimerServiceIntent: Intent
 
 
-
     private var increasingTime = 0.00
-    private var decreasingTime = 5.00
+    private var decreasingTime = 90.00
     private var timerStarted = true
 
     override fun onCreateView(
@@ -41,7 +40,6 @@ class TimerFragment : Fragment() {
         increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
         decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
-
 
         registerReceiver(
             requireContext(),
@@ -54,24 +52,21 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         binding.resumeButton.setOnLongClickListener {
-            findNavController().navigate(R.id.action_timerFragment_to_fragment_result)
-            binding.resumeButton.isVisible
+            requireActivity().stopService(increasingTimerServiceIntent)
+            val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
+            findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
+
+            return@setOnLongClickListener true
         }
 
-
         binding.pauseButton.setOnClickListener { pauseTimer() }
-
         binding.resumeButton.setOnClickListener { resumeTraining() }
         //TODO: Implementar navegação para tela final usando a alinha baixo.
-     //   binding.resumeButton.setOnLongClickListener {pauseTimer()  }
 
         requireActivity().startService(increasingTimerServiceIntent)
 
     }
-
 
 
     private fun Fragment.vibrate(duration: Long = 500) {
