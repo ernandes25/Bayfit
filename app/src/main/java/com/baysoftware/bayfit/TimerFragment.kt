@@ -27,9 +27,8 @@ class TimerFragment : Fragment() {
     private lateinit var increasingTimerServiceIntent: Intent
     private lateinit var decreasingTimerServiceIntent: Intent
 
-
     private var increasingTime = 0.00
-    private var decreasingTime = 90.00
+    private var decreasingTime = 4.00
     private var timerStarted = true
 
     override fun onCreateView(
@@ -53,23 +52,30 @@ class TimerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.resumeButton.setOnLongClickListener {
-            requireActivity().stopService(increasingTimerServiceIntent)
-            val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
-            findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
-
+            stopTrainingSession()
             return@setOnLongClickListener true
         }
 
         binding.pauseButton.setOnClickListener { pauseTimer() }
         binding.resumeButton.setOnClickListener { resumeTraining() }
-        //TODO: Implementar navegação para tela final usando a alinha baixo.
+
 
         requireActivity().startService(increasingTimerServiceIntent)
 
     }
 
+private fun stopTrainingSession(){
 
-    private fun Fragment.vibrate(duration: Long = 500) {
+    requireActivity().stopService(increasingTimerServiceIntent)
+    requireActivity().stopService(decreasingTimerServiceIntent)
+    requireActivity().unregisterReceiver(updateIncreasingTime)
+
+    val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
+    findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
+
+}
+
+    private fun vibrate(duration: Long = 500) {
         val vibrator = requireContext().getSystemService() as? Vibrator
         vibrator?.vibrate(
             VibrationEffect.createOneShot(
