@@ -18,7 +18,7 @@ class UserManager(val context: Context) {
 
     }
 
-     suspend fun saveDataUser(minute: Int, second: Int) {
+     suspend fun saveDataUser(minute: Context, second: Context) {
         context.dataTimer.edit {
             it[MINUTE_KEY] = minute
             it[SECOND_KEY] = second

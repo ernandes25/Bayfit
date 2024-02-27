@@ -52,14 +52,14 @@ class TimerSetterFragment : Fragment() {
     }
 
     private fun initListeners () {
-        binding.numberPickerMin.setOnClickListener { saveDataUser() }
+        binding.ok.setOnClickListener { saveDataUser() }
 
 
     }
 
     private fun saveDataUser() {
-        val minute = binding.numberPickerMin.context.applicationContext
-        val second = binding.numberPickerSec.context.applicationContext
+        val minute = binding.numberPickerMin.context
+        val second = binding.numberPickerSec.context
 
         lifecycleScope.launch { userManager.saveDataUser(minute, second) }
     }
@@ -69,8 +69,9 @@ class TimerSetterFragment : Fragment() {
     private fun readDataUser() {
 lifecycleScope.launch {
     val user = userManager.readDataUser()
-    binding.numberPickerMin.setText(user.minute)
-    binding.edtName.setText(user.second)
+
+    binding.numberPickerMin.context.getText(user.minute as Int)
+    binding.numberPickerSec.context.getText(user.second)
 
 }
     }
