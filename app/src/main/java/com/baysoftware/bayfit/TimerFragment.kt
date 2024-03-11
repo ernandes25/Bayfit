@@ -16,9 +16,14 @@ import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
+import com.google.android.gms.common.internal.service.Common
+import kotlinx.coroutines.runBlocking
+import java.util.prefs.Preferences
 import kotlin.math.roundToInt
 
 class TimerFragment : Fragment() {
@@ -26,10 +31,13 @@ class TimerFragment : Fragment() {
     private lateinit var binding: FragmentTimerBinding
     private lateinit var increasingTimerServiceIntent: Intent
     private lateinit var decreasingTimerServiceIntent: Intent
-//  private lateinit var userManager: UserManager //feito em 27/02
+
 
     private var increasingTime = 0.00
-    private var decreasingTime = 4.0
+//  private var decreasingTime = 4.00 11/03/2024-Comentado em 11/03/2024
+    private var decreasingTime =  UserManager.SECOND_KEY   //11/03/2024-Criado
+
+
     private var timerStarted = true
 
     override fun onCreateView(
@@ -39,7 +47,7 @@ class TimerFragment : Fragment() {
         increasingTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
         increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
-        decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime)
+      decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime) // 11/03/2024-Comentado
 
         registerReceiver(
             requireContext(),
@@ -59,11 +67,12 @@ class TimerFragment : Fragment() {
 
         binding.pauseButton.setOnClickListener { pauseTimer() }
         binding.resumeButton.setOnClickListener { resumeTraining() }
-
+        UserManager.SECOND_KEY
 
         requireActivity().startService(increasingTimerServiceIntent)
 
     }
+
 
 private fun stopTrainingSession(){
 
@@ -85,9 +94,11 @@ private fun stopTrainingSession(){
             )
         )
     }
-
     private fun pauseTimer() {
         timerStarted = false
+
+
+
         startDecreasingTimer()
         binding.textRest.isInvisible = false
         binding.pauseButton.isInvisible = true
@@ -138,8 +149,10 @@ private fun stopTrainingSession(){
 
     private val updateDecreasingTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            decreasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-            if (decreasingTime == 0.0) {
+       //    decreasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+
+
+            if (decreasingTime == UserManager.SECOND_KEY) {    //11/03/2024
                 stopTimer()
                 binding.primaryTimer.text
                 binding.resumeButton.isInvisible = false
@@ -150,7 +163,7 @@ private fun stopTrainingSession(){
                 // TODO: esconder "Descanso"
                 // TODO: mostrar botão play verde
             }
-            binding.primaryTimer.text = getTimeStringFromDouble(decreasingTime)
+            //binding.primaryTimer.text = Preferences.importPreferences(UserManager)(decreasingTime)
         }
     }
 
