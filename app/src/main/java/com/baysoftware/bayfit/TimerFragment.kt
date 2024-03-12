@@ -10,6 +10,7 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.content.getSystemService
@@ -17,11 +18,17 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStore
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import com.google.android.gms.common.internal.service.Common
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.prefs.Preferences
 import kotlin.math.roundToInt
@@ -34,8 +41,13 @@ class TimerFragment : Fragment() {
 
 
     private var increasingTime = 0.00
-//  private var decreasingTime = 4.00 11/03/2024-Comentado em 11/03/2024
-    private var decreasingTime =  UserManager.SECOND_KEY   //11/03/2024-Criado
+    //private var decreasingTime = 4.00 /*11/03/2024-Comentado em 11/03/2024*/
+
+
+   //private var decreasingTime = UserManager.SECOND_KEY
+   //private var decreasingTime = dataStore(preferencesDataStore(UserManager.SECOND_KEY))
+//    private var decreasingTime = dataStore(preferencesDataStore("settings")
+
 
 
     private var timerStarted = true
@@ -47,7 +59,10 @@ class TimerFragment : Fragment() {
         increasingTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
         increasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         decreasingTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
-      decreasingTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, decreasingTime) // 11/03/2024-Comentado
+        decreasingTimerServiceIntent.putExtra(
+            TimerService.TIME_EXTRA,
+            decreasingTime
+        ) // 11/03/2024-Comentado
 
         registerReceiver(
             requireContext(),
@@ -74,16 +89,17 @@ class TimerFragment : Fragment() {
     }
 
 
-private fun stopTrainingSession(){
 
-    requireActivity().stopService(increasingTimerServiceIntent)
-    requireActivity().stopService(decreasingTimerServiceIntent)
-    requireActivity().unregisterReceiver(updateIncreasingTime)
+            private fun stopTrainingSession() {
 
-    val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
-    findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
+        requireActivity().stopService(increasingTimerServiceIntent)
+        requireActivity().stopService(decreasingTimerServiceIntent)
+        requireActivity().unregisterReceiver(updateIncreasingTime)
 
-}
+        val bundle = bundleOf("endTime" to binding.secondaryTimer.text)
+        findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
+
+    }
 
     private fun vibrate(duration: Long = 500) {
         val vibrator = requireContext().getSystemService() as? Vibrator
@@ -94,6 +110,7 @@ private fun stopTrainingSession(){
             )
         )
     }
+
     private fun pauseTimer() {
         timerStarted = false
 
@@ -149,10 +166,10 @@ private fun stopTrainingSession(){
 
     private val updateDecreasingTime: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-       //    decreasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+            //    decreasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
 
 
-            if (decreasingTime == UserManager.SECOND_KEY) {    //11/03/2024
+            if (decreasingTime == 0.00) {    //11/03/2024
                 stopTimer()
                 binding.primaryTimer.text
                 binding.resumeButton.isInvisible = false
