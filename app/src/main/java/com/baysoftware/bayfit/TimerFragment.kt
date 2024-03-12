@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStore
+import androidx.datastore.dataStoreFile
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -28,6 +29,7 @@ import androidx.lifecycle.liveData
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import com.google.android.gms.common.internal.service.Common
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.prefs.Preferences
@@ -42,12 +44,24 @@ class TimerFragment : Fragment() {
 
     private var increasingTime = 0.00
     //private var decreasingTime = 4.00 /*11/03/2024-Comentado em 11/03/2024*/
+ //   private var decreasingTime = qualquerCoisa()
 
 
    //private var decreasingTime = UserManager.SECOND_KEY
+//    private var decreasingTime = dataStore().DataStore{UserManager.SECOND_KEY}
    //private var decreasingTime = dataStore(preferencesDataStore(UserManager.SECOND_KEY))
-//    private var decreasingTime = dataStore(preferencesDataStore("settings")
+ //private var decreasingTime = preferencesDataStore(UserManager.getInstance().readDataUser())
+    private var decreasingTime = preferencesDataStore(UserManager.getInstance().readDataUser())
 
+ //   private var decreasingTime = dataStore(preferencesDataStore("settings")
+
+
+
+     private fun qualquerCoisa(){
+         var second = UserManager.SECOND_KEY
+         return qualquerCoisa()
+
+   }
 
 
     private var timerStarted = true
