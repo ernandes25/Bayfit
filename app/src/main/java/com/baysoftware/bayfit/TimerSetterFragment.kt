@@ -40,9 +40,10 @@ class TimerSetterFragment : Fragment() {
     }
 
     private fun setupNumberPicker() {
-        //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativs
+        //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
+
         lifecycleScope.launch {
-            val user = UserManager.getInstance().readDataUser(requireContext())
+            val user = UserManager.getInstance().readTimerConfiguration(requireContext())
             binding.numberPickerMin.value = user.minute
             binding.numberPickerSec.value = user.second
         }
