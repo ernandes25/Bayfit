@@ -1,6 +1,6 @@
 package com.baysoftware.bayfit
 
 data class TimerConfiguration(
-    val minute: Int,
-    val second: Int
+    var minute: Int,
+    var second: Int
 )

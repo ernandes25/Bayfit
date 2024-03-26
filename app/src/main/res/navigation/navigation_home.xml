@@ -17,16 +17,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/timerFragment"
-        android:name="com.baysoftware.bayfit.TimerFragment"
-        android:label="TimerFragment"
-        tools:layout="@layout/fragment_timer">
-        <action
-            android:id="@+id/action_timerFragment_to_fragment_result"
-            app:destination="@id/fragment_result" />
-    </fragment>
-
-    <fragment
         android:id="@+id/fragment_settings"
         android:name="com.baysoftware.bayfit.SettingsFragment"
         android:label="fragment_settings"
@@ -45,9 +35,6 @@
         <action
             android:id="@+id/action_fragment_timer_count_type_to_fragment_timer_setter"
             app:destination="@id/fragment_timer_setter" />
-        <action
-            android:id="@+id/action_fragment_timer_count_type_to_timerFragment"
-            app:destination="@id/timerFragment" />
     </fragment>
 
     <fragment
