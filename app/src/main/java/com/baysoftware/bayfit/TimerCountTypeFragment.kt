@@ -41,6 +41,16 @@ class TimerCountTypeFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            val button1 = UserManager.getInstance().readTimerMode(requireContext())
+
+            if (button1 == UserManager.TimerMode.FREE) {
+                binding.radioButton1.isChecked = true
+            } else {
+                binding.radioButton2.isChecked = true
+            }
+        }
+
         binding.buttonOkcountType.setOnClickListener {
 
             lifecycleScope.launch {
