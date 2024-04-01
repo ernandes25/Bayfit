@@ -21,7 +21,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 class TimerFragment : Fragment() {
 
@@ -61,8 +60,7 @@ class TimerFragment : Fragment() {
                     // Se o tempo for livre, o intent tem que ser configurado para que o serviço seja
                     // CRESCENTE, portanto não há necessidade de consultar o DataStore para obter tempo
                     // informado pelo usuário.
-                    restTimerServiceIntent =
-                        Intent(requireContext(), IncreasingTimerService::class.java)
+                    restTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, 0.0)
                 }
 
@@ -70,12 +68,9 @@ class TimerFragment : Fragment() {
                     // Se o tempo for pré-definido, o intent tem que ser configurado para que o serviço
                     // seja DECRESCENTE, e o valor padrão deve ser obtido do DataStore, que por sua vez
                     // foi informado pelo usuário.
-                    val timerConfiguration =
-                        UserManager.getInstance().readTimerConfiguration(requireContext())
-                    restTime =
-                        timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
-                    restTimerServiceIntent =
-                        Intent(requireContext(), DecreasingTimerService::class.java)
+                    val timerConfiguration = UserManager.getInstance().readTimerConfiguration(requireContext())
+                    restTime = timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
+                    restTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, restTime)
                 }
             }
@@ -107,7 +102,7 @@ class TimerFragment : Fragment() {
             "endTime" to binding.secondaryTimer.text,
             "endRest" to totalRestTime
         )
-        findNavController().navigate(R.id.action_timerFragment_to_fragment_result, bundle)
+        findNavController().navigate(R.id.action_timer_fragment_to_fragment_result, bundle)
     }
 
     private fun vibrate(duration: Long = 500) {
@@ -144,9 +139,6 @@ class TimerFragment : Fragment() {
     }
 
     private fun resumeTraining() {
-        if (timerMode == UserManager.TimerMode.PREDEFINED) {
-            totalRestTime += restTime
-        }
 
         isResting = false
         requireActivity().stopService(restTimerServiceIntent)
@@ -195,9 +187,7 @@ class TimerFragment : Fragment() {
                 binding.textRest.isInvisible = true
                 vibrate()
             }
-            if (timerMode == UserManager.TimerMode.FREE) {
-                totalRestTime++
-            }
+            totalRestTime++
 
             binding.primaryTimer.text = time.getTimeStringFromDouble()
         }

@@ -36,7 +36,7 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/free"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_secondary_timer" />
+                android:textSize="@dimen/text_size_secondary_timer"/>
 
             <RadioButton
                 android:id="@+id/radioButton2"
@@ -45,7 +45,8 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/time"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_secondary_timer" />
+                android:textSize="@dimen/text_size_secondary_timer"/>
+
         </RadioGroup>
 
         <androidx.appcompat.widget.AppCompatButton

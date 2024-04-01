@@ -25,19 +25,29 @@ class TimerCountTypeFragment : Fragment() {
             container,
             false
         )
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launch {
+            val restType = UserManager.getInstance().readTimerMode(requireContext())
+
+            if (restType == UserManager.TimerMode.FREE) {
+                binding.radioButton1.isChecked = true
+            } else if(restType == UserManager.TimerMode.PREDEFINED) {
+                binding.radioButton2.isChecked = true
+            }
+        }
+
         binding.buttonOkcountType.setOnClickListener {
 
             lifecycleScope.launch {
-                val botaoSelecionado = if (binding.radioButton1.isChecked) {
+                val selectedButton = if (binding.radioButton1.isChecked) {
                     findNavController().navigate(R.id.fragment_home)
                     UserManager.TimerMode.FREE
+
                 } else if (binding.radioButton2.isChecked) {
                     findNavController().navigate(R.id.fragment_timer_setter)
                     UserManager.TimerMode.PREDEFINED
@@ -45,7 +55,7 @@ class TimerCountTypeFragment : Fragment() {
                     //TODO: Mostrar Toast "Selecione uma opção" e impedir navegação para a tela anterior
                     UserManager.TimerMode.UNDEFINED
                 }
-                UserManager.getInstance().saveTimerMode(requireContext(), botaoSelecionado)
+                UserManager.getInstance().saveTimerMode(requireContext(), selectedButton)
             }
         }
     }

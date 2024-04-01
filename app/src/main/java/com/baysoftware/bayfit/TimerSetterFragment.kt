@@ -34,7 +34,7 @@ class TimerSetterFragment : Fragment() {
         setupNumberPicker()
 
         binding.ok.setOnClickListener {
-            saveDataUser()
+            saveTimerConfiguration()
             findNavController().navigate(R.id.fragment_home)
         }
     }
@@ -49,12 +49,12 @@ class TimerSetterFragment : Fragment() {
         }
     }
 
-    private fun saveDataUser() {
+    private fun saveTimerConfiguration() {
         val vlrDoMinutoDoPicker = binding.numberPickerMin.value
         val vlrDoSegundoDoPicker = binding.numberPickerSec.value
 
         lifecycleScope.launch {
-            UserManager.getInstance().saveDataUser(
+            UserManager.getInstance().saveTimerConfiguration(
                 requireContext(),
                 minute = vlrDoMinutoDoPicker,
                 second = vlrDoSegundoDoPicker

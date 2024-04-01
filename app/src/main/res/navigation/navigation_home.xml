@@ -41,7 +41,6 @@
         android:id="@+id/fragment_timer_setter"
         android:name="com.baysoftware.bayfit.TimerSetterFragment"
         android:label="fragment_timer_setter"
-        tools:layout="@layout/fragment_timer_setter">
-    </fragment>
+        tools:layout="@layout/fragment_timer_setter"></fragment>
 
 </navigation>

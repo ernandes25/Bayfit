@@ -27,7 +27,7 @@ class UserManager private constructor() {
         }
     }
 
-    suspend fun saveDataUser(context: Context, minute: Int, second: Int) {
+    suspend fun saveTimerConfiguration(context: Context, minute: Int, second: Int) {
         context.dataTimer.edit {
             it[MINUTE_KEY] = minute
             it[SECOND_KEY] = second
@@ -53,9 +53,9 @@ class UserManager private constructor() {
         return prefs[TIMER_MODE]?.let { TimerMode.fromString(it) } ?: TimerMode.PREDEFINED
     }
 
-     enum class TimerMode(val stringValue: String) {
+    enum class TimerMode(val stringValue: String) {
         UNDEFINED("UNDEFINED"),
-         PREDEFINED("PREDEFINED"),
+        PREDEFINED("PREDEFINED"),
         FREE("FREE");
 
         companion object {

@@ -12,7 +12,7 @@
         android:label="TimerFragment"
         tools:layout="@layout/fragment_timer">
         <action
-            android:id="@+id/action_timerFragment_to_fragment_result"
+            android:id="@+id/action_timer_fragment_to_fragment_result"
             app:destination="@id/fragment_result" />
     </fragment>
 
