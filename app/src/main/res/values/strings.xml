@@ -23,6 +23,7 @@
     <string name="congratulations">PARABÉNS</string>
     <string name="time_total">TEMPO TOTAL</string>
     <string name="time_rest">TEMPO DE DESCANSO</string>
+    <string name="return_screen_home">RETORNAR</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

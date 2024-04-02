@@ -23,6 +23,8 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.buttonReturn.setOnClickListener { activity?.finish() }
+
         binding.timeEnd.text = arguments?.getString("endTime")
 
         binding.restEnd.text = arguments?.getDouble("endRest")?.getTimeStringFromDouble()
