@@ -16,9 +16,7 @@ interface ExerciseSessionDAO {
     fun getAlphabetizedExerciseSession(): Flow<List<ExerciseSession>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(data: ExerciseSession, duration: ExerciseSession, totaolTimePause: ExerciseSession )
-    // Verificar se a sintaxe da linha acima está correta. Antes, no colelab era:  suspend fun insert(word: Word)
-    // Agora, como são três itens na tabela...
+    suspend fun insert(data: ExerciseSession, duration: ExerciseSession, totalTimePause: ExerciseSession )
 
     @Query("DELETE FROM history_table")
     suspend fun deleteAll()
