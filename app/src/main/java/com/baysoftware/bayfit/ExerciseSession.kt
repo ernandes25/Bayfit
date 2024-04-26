@@ -13,9 +13,3 @@ data class ExerciseSession(@PrimaryKey @ColumnInfo(name = "data")
                            val duration : Int,
                            val totalTimePause : Int
 )
-
-//TODO:
-//tabela ExerciseSession:
-//- data
-//- duração
-//- TotalTempoPausa -
