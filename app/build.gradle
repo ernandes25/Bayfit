@@ -59,38 +59,7 @@ dependencies {
     implementation 'androidx.datastore:datastore-core-android:1.1.0-beta02'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
     implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0"
-
-//ROOM - COPIADAS DO PROJETO ROOM
-
-//    implementation libs.androidx.core.ktx
-
-    // Room components
-
-//    implementation libs.room.ktx
-//    implementation libs.room.runtime
-//    annotationProcessor libs.room.compiler
-//    androidTestImplementation libs.room.testing
-//
-//    // Lifecycle components
-//    implementation libs.androidx.viewmodel
-//    implementation libs.androidx.livedata
-//    implementation libs.androidx.common.java8
-//
-//    // UI
-//    implementation libs.androidx.constraintlayout
-//    implementation libs.androidx.appcompat
-//    implementation libs.androidx.activity
-//    implementation libs.material
-//
-//    // Testing
-//    testImplementation libs.junit
-//    androidTestImplementation libs.androidx.junit
-//    androidTestImplementation libs.androidx.espresso.core
-//    androidTestImplementation libs.androidx.test.ext
-
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-
-
 }
