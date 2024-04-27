@@ -7,7 +7,6 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 
-
 @Dao
 interface ExerciseSessionDAO {
 
@@ -16,7 +15,11 @@ interface ExerciseSessionDAO {
     fun getAlphabetizedExerciseSession(): Flow<List<ExerciseSession>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(data: ExerciseSession, duration: ExerciseSession, totalTimePause: ExerciseSession )
+    suspend fun insert(
+        data: ExerciseSession,
+        duration: ExerciseSession,
+        totalTimePause: ExerciseSession
+    )
 
     @Query("DELETE FROM history_table")
     suspend fun deleteAll()
