@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt' //COPIADO DO PROJETO ROOM
+    id 'kotlin-kapt'
 }
 
 apply plugin: 'kotlin-kapt'
@@ -16,7 +16,6 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
     }
 
     buildFeatures {
