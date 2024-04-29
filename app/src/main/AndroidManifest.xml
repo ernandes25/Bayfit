@@ -14,11 +14,11 @@
         android:theme="@style/Bayfit.Theme"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".RunningActivity"
+            android:name=".running.view.RunningActivity"
             android:exported="false"
             android:taskAffinity="" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".home.view.HomeActivity"
             android:exported="true"
             android:taskAffinity="@string/common_open_on_phone">
             <intent-filter>
@@ -28,9 +28,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".IncreasingTimerService" />
-        <service android:name=".DecreasingTimerService" />
-        <service android:name=".TotalTimerService" />
+        <service android:name=".running.service.IncreasingTimerService" />
+        <service android:name=".running.service.DecreasingTimerService" />
+        <service android:name=".running.service.TotalTimerService" />
 
         <meta-data
             android:name="preloaded_fonts"

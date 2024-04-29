@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.home.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

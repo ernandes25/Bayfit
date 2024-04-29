@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.home.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.baysoftware.bayfit.R
+import com.baysoftware.bayfit.running.view.RunningActivity
 import com.baysoftware.bayfit.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {

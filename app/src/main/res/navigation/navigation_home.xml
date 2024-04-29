@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.baysoftware.bayfit.HomeFragment"
+        android:name="com.baysoftware.bayfit.home.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/fragment_settings"
-        android:name="com.baysoftware.bayfit.SettingsFragment"
+        android:name="com.baysoftware.bayfit.settings.view.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/fragment_timer_count_type"
-        android:name="com.baysoftware.bayfit.TimerCountTypeFragment"
+        android:name="com.baysoftware.bayfit.settings.view.TimerCountTypeFragment"
         android:label="fragment_timer_count_type"
         tools:layout="@layout/fragment_timer_count_type">
 
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/fragment_timer_setter"
-        android:name="com.baysoftware.bayfit.TimerSetterFragment"
+        android:name="com.baysoftware.bayfit.settings.view.TimerSetterFragment"
         android:label="fragment_timer_setter"
         tools:layout="@layout/fragment_timer_setter"></fragment>
 

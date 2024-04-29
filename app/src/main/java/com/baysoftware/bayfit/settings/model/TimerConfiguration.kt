@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.settings.model
 
 data class TimerConfiguration(
     var minute: Int,

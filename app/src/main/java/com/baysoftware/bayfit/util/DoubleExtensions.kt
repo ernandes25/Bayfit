@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.util
 
 import kotlin.math.roundToInt
 

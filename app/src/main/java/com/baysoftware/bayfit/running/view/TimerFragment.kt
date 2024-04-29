@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.running.view
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,7 +19,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
+import com.baysoftware.bayfit.running.service.DecreasingTimerService
+import com.baysoftware.bayfit.running.service.IncreasingTimerService
+import com.baysoftware.bayfit.running.service.TimerService
+import com.baysoftware.bayfit.running.service.TotalTimerService
+import com.baysoftware.bayfit.preferences.UserManager
 import kotlinx.coroutines.launch
 
 class TimerFragment : Fragment() {

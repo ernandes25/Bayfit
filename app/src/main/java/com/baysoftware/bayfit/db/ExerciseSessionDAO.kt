@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.db
 
 import androidx.room.Dao
 import androidx.room.Insert
