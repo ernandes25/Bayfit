@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/timerFragment"
-        android:name="com.baysoftware.bayfit.TimerFragment"
+        android:name="com.baysoftware.bayfit.running.view.TimerFragment"
         android:label="TimerFragment"
         tools:layout="@layout/fragment_timer">
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/fragment_result"
-        android:name="com.baysoftware.bayfit.ResultFragment"
+        android:name="com.baysoftware.bayfit.running.view.ResultFragment"
         android:label="ResultFragment"
         tools:layout="@layout/fragment_result">
     </fragment>

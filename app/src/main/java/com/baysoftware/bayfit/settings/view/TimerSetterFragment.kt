@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.settings.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.baysoftware.bayfit.R
+import com.baysoftware.bayfit.preferences.UserManager
 import com.baysoftware.bayfit.databinding.FragmentTimerSetterBinding
 import kotlinx.coroutines.launch
 

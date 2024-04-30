@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".HomeFragment">
+            tools:context=".home.view.HomeFragment">
 
             <ImageButton
                 android:id="@+id/imageButtonIniciar"
@@ -77,12 +77,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_config" />
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 </layout>

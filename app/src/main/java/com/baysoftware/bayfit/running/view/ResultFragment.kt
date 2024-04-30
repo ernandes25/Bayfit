@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit
+package com.baysoftware.bayfit.running.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentResultBinding
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
 
 class ResultFragment : Fragment() {
     private lateinit var binding: FragmentResultBinding
