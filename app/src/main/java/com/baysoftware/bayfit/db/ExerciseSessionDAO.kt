@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ExerciseSessionDAO {
 
-    @Query("SELECT * FROM history_table ORDER BY data, duration, totalTimePause ASC")
-
+    @Query("SELECT * FROM exercise_session ORDER BY data, duration, totalTimePause ASC")
     fun getAlphabetizedExerciseSession(): Flow<List<ExerciseSession>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -21,6 +20,6 @@ interface ExerciseSessionDAO {
         totalTimePause: ExerciseSession
     )
 
-    @Query("DELETE FROM history_table")
+    @Query("DELETE FROM exercise_session")
     suspend fun deleteAll()
 }
