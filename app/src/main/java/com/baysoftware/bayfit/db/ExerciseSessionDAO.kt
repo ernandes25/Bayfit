@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ExerciseSessionDAO {
 
-    @Query("SELECT * FROM exercise_session ORDER BY data, duration, totalTimePause ASC")
+    @Query("SELECT * FROM exercise_session ORDER BY data, duration, total_time_pause ASC")
     fun getAlphabetizedExerciseSession(): Flow<List<ExerciseSessionEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
