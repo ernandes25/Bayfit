@@ -11,14 +11,10 @@ import kotlinx.coroutines.flow.Flow
 interface ExerciseSessionDAO {
 
     @Query("SELECT * FROM exercise_session ORDER BY data, duration, totalTimePause ASC")
-    fun getAlphabetizedExerciseSession(): Flow<List<ExerciseSession>>
+    fun getAlphabetizedExerciseSession(): Flow<List<ExerciseSessionEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(
-        data: ExerciseSession,
-        duration: ExerciseSession,
-        totalTimePause: ExerciseSession
-    )
+    suspend fun insert(data: ExerciseSessionEntity)
 
     @Query("DELETE FROM exercise_session")
     suspend fun deleteAll()

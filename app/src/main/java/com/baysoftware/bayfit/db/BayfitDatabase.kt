@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [ExerciseSession::class],
+    entities = [ExerciseSessionEntity::class],
     version = 1
 )
 abstract class BayfitDatabase : RoomDatabase() {
