@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.type.watch" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -13,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Bayfit.Theme"
         tools:targetApi="tiramisu">
+        <activity
+            android:name=".running.view.HistoryActivity"
+            android:exported="false" />
         <activity
             android:name=".running.view.RunningActivity"
             android:exported="false"
