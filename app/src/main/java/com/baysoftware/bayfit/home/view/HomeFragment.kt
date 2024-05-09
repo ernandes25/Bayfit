@@ -9,8 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
-import com.baysoftware.bayfit.running.view.RunningActivity
 import com.baysoftware.bayfit.databinding.FragmentHomeBinding
+import com.baysoftware.bayfit.running.view.HistoryActivity
+import com.baysoftware.bayfit.running.view.RunningActivity
 
 class HomeFragment : Fragment() {
 
@@ -33,6 +34,11 @@ class HomeFragment : Fragment() {
         }
         binding.imageButtonIniciar.setOnClickListener {
             val intent = Intent(requireContext(), RunningActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.buttonHistory.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }
     }

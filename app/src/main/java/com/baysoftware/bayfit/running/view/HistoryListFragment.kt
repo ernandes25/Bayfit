@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentHistoryListBinding
 
@@ -26,16 +25,11 @@ class HistoryListFragment : Fragment() {
             container,
             false
         )
+//        TODO: Implementar código abaixo após criação do ADAPTER (Próxima tarefa-Ver board github)
+//        val adapter = WordListAdapter()
+//        recyclerView.adapter = adapter
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.recyclerViewHistory.setOnClickListener { //Ao invés de buttonCOnfig, clicar sobre o item da lista
-            // coloquei recyclerView.Ver com Higor
-            findNavController().navigate(R.id.action_fragment_history_list_to_fragment_exercise_report)
-        }                                       //falta criar a fragment exerciceReportFragment
-    }
 }
-
-

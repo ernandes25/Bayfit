@@ -16,7 +16,8 @@
         tools:targetApi="tiramisu">
         <activity
             android:name=".running.view.HistoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:taskAffinity="@string/common_open_on_phone" />
         <activity
             android:name=".running.view.RunningActivity"
             android:exported="false"
