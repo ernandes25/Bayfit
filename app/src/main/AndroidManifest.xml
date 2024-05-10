@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Bayfit.Theme"
         tools:targetApi="tiramisu">
+
         <activity
             android:name=".running.view.HistoryActivity"
-            android:exported="false"
-            android:taskAffinity="@string/common_open_on_phone" />
+            android:exported="false"/>
         <activity
             android:name=".running.view.RunningActivity"
             android:exported="false"
