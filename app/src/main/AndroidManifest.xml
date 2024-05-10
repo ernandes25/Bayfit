@@ -17,7 +17,8 @@
 
         <activity
             android:name=".running.view.HistoryActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:taskAffinity=""/>
         <activity
             android:name=".running.view.RunningActivity"
             android:exported="false"
