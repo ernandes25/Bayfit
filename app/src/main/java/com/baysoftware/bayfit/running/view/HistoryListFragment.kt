@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentHistoryListBinding
+import com.baysoftware.bayfit.home.view.ExerciseSessionAdapter
 
 class HistoryListFragment : Fragment() {
 
@@ -26,10 +29,16 @@ class HistoryListFragment : Fragment() {
             false
         )
 //        TODO: Implementar código abaixo após criação do ADAPTER (Próxima tarefa-Ver board github)
-//        val adapter = WordListAdapter()
-//        recyclerView.adapter = adapter
+//        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        val recyclerView = binding.recyclerViewHistory
+
+        val adapter = ExerciseSessionAdapter()
+        recyclerView.adapter = adapter
 //        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this.context )
 
         return binding.root
     }
+
+
 }
