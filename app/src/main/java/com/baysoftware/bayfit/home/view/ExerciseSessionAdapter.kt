@@ -29,12 +29,10 @@ class ExerciseSessionAdapter(
     class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val dataTextView: TextView = itemView.findViewById(R.id.data)
         private val durationTextView: TextView = itemView.findViewById(R.id.duration)
-    //    private val totalTimePauseTextView: TextView = itemView.findViewById(R.id.totalTimePause)
 
         fun bind(exerciseSessionEntity: ExerciseSessionEntity) {
             dataTextView.text = exerciseSessionEntity.data.toString()
             durationTextView.text = exerciseSessionEntity.duration.toString()
-            totalTimePauseTextView.text = exerciseSessionEntity.totalTimePause.toString()
         }
 
         companion object {

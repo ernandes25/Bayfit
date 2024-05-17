@@ -51,7 +51,6 @@
             android:id="@+id/duration_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginBottom="56dp"
             android:gravity="center"
             android:text="@string/race_text"
@@ -144,7 +143,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/time_rest_total"
             tools:layout_editor_absoluteY="186dp" />
-
 
         <TextView
             android:id="@+id/time_rest_total"
