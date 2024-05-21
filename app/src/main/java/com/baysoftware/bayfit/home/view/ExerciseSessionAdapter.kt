@@ -10,7 +10,7 @@ import com.baysoftware.bayfit.db.ExerciseSessionEntity
 
 class ExerciseSessionAdapter(
     private val objects: List<ExerciseSessionEntity>,
-    onClickListener: (Int) -> Unit
+    private val onClickListener: (ExerciseSessionEntity) -> Unit
 ) : RecyclerView.Adapter<ExerciseSessionAdapter.ExerciseViewHolder>() {
 
     // getItemCount(), onCreateViewHolder() e onBindViewHolder() existem em RecyclerView.Adapter como
@@ -24,6 +24,8 @@ class ExerciseSessionAdapter(
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         holder.bind(objects[position])
+
+        holder.itemView.setOnClickListener { onClickListener(objects[position]) }
     }
 
     class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

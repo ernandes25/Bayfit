@@ -6,7 +6,7 @@
     app:startDestination="@id/historyFragment">
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.baysoftware.bayfit.history.HistoryListFragment"
+        android:name="com.baysoftware.bayfit.history.view.HistoryListFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history_list" />
 </navigation>

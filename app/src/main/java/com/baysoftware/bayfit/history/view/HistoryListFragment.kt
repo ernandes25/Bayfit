@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit.history
+package com.baysoftware.bayfit.history.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
