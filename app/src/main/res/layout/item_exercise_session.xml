@@ -34,7 +34,7 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_extra_small"
             android:gravity="center"
-            android:text="@string/duration_time_"
+            tools:text="00:00:00"
             android:textColor="@color/green"
             android:textSize="@dimen/text_size_timer_list"
             app:layout_constraintStart_toStartOf="parent"

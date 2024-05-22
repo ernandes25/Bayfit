@@ -27,9 +27,12 @@ class HistoryListFragment : Fragment() {
             false
         )
 //        TODO: Implementar código abaixo após criação do Repositório/Após estar funcional
+
+
+
         //val adapter = ExerciseSessionAdapter()
         //recyclerView.adapter = adapter
-        binding.recyclerViewHistory.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerViewHistory.layoutManager = LinearLayoutManager(requireContext())
 
         return binding.root
     }
