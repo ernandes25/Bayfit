@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentHomeBinding
-import com.baysoftware.bayfit.running.view.HistoryActivity
+import com.baysoftware.bayfit.history.view.HistoryActivity
 import com.baysoftware.bayfit.running.view.RunningActivity
 
 class HomeFragment : Fragment() {

@@ -16,7 +16,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".running.view.HistoryActivity"
+            android:name=".history.view.HistoryActivity"
             android:exported="false"
             android:taskAffinity=""/>
         <activity

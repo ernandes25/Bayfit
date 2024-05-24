@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit.running.view
+package com.baysoftware.bayfit.history.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentHistoryListBinding
 
@@ -25,10 +26,13 @@ class HistoryListFragment : Fragment() {
             container,
             false
         )
-//        TODO: Implementar código abaixo após criação do ADAPTER (Próxima tarefa-Ver board github)
-//        val adapter = WordListAdapter()
-//        recyclerView.adapter = adapter
-//        recyclerView.layoutManager = LinearLayoutManager(this)
+//        TODO: Implementar código abaixo após criação do Repositório/Após estar funcional
+
+
+
+        //val adapter = ExerciseSessionAdapter()
+        //recyclerView.adapter = adapter
+                binding.recyclerViewHistory.layoutManager = LinearLayoutManager(requireContext())
 
         return binding.root
     }

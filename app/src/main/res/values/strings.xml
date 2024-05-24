@@ -8,7 +8,7 @@
     <string name="fragment_a">Fragment A</string>
     <string name="fragment_b">Fragment B</string>
     <string name="cronometer_initial_value">00:00:00</string>
-    <string name="cronometer_rest_setter">00:00</string>
+    <string name="duration_time">00:00:00</string>
     <string name="text_rest">Descanso…</string>
     <string name="time_rest_setting">Tempo de descanso</string>
     <string name="time_series_setting">Tempo de Série</string>
@@ -24,6 +24,14 @@
     <string name="time_total">TEMPO TOTAL</string>
     <string name="time_rest">TEMPO DE DESCANSO</string>
     <string name="return_screen_home">RETORNAR</string>
+    <string name="data_text">Data</string>
+    <string name="race_text">CORRIDA</string>
+    <string name="time_total_text">Tempo Total</string>
+    <string name="start_text">Início:</string>
+    <string name="end_text">Fim:</string>
+    <string name="clock">00:00</string>
+    <string name="rest_total">DESCANSO TOTAL</string>
+    <string name="icon_clock">Ícone de Relógio</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

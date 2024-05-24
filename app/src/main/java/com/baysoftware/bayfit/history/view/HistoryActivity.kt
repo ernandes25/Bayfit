@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit.running.view
+package com.baysoftware.bayfit.history.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
