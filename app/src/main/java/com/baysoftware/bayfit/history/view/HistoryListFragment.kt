@@ -27,7 +27,6 @@ class HistoryListFragment : Fragment() {
         ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),
     )
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
