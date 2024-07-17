@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "exercise_session")
 data class ExerciseSessionEntity(
-    @PrimaryKey @ColumnInfo(name = "data") val data: String,
+    @PrimaryKey @ColumnInfo(name = "data") val date: String,
     @ColumnInfo(name = "duration") val duration: Int,
     @ColumnInfo(name = "total_time_pause") val totalTimePause: Int
 )

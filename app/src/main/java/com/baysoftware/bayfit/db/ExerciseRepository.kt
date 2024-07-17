@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 class ExerciseRepository(private val exerciseDao: ExerciseSessionDAO) {
 
-    val allExercises: Flow<List<ExerciseSessionEntity>> = exerciseDao.getAlphabetizedExerciseSession()
+    val allExercises: List<ExerciseSessionEntity> = exerciseDao.getAllSessions()
 
     @WorkerThread
     suspend fun insert(data: ExerciseSessionEntity) {

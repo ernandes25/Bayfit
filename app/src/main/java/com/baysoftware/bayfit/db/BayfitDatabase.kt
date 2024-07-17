@@ -16,7 +16,7 @@ abstract class BayfitDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: BayfitDatabase? = null
 
-        fun getDatabase(context: Context): BayfitDatabase {
+        fun getInstance(context: Context): BayfitDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
