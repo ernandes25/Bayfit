@@ -30,7 +30,7 @@ class ExerciseSessionAdapter(
     }
 
     class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dataTextView: TextView = itemView.findViewById(R.id.date)
+        private val dataTextView: TextView = itemView.findViewById(R.id.date_item)
         private val durationTextView: TextView = itemView.findViewById(R.id.duration)
 
         fun bind(exerciseSessionEntity: ExerciseSession) {
@@ -43,9 +43,9 @@ class ExerciseSessionAdapter(
         // metodosabstratos e portanto precisa ser implementado aqui na classe concreta
         // ExerciseSessionAdapter (por isso o uso de override)
 
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   /*     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val dataTextView: TextView = itemView.findViewById(R.id.date)
             val durationTextView: TextView = itemView.findViewById(R.id.duration)
-        }
+        }*/
     }
 }

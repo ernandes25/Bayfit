@@ -15,8 +15,8 @@ class HistoryListFragment : Fragment() {
     private lateinit var adapter: ExerciseSessionAdapter
     private lateinit var binding: FragmentHistoryListBinding
 
-    private val sessions = listOf(
-        ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
+    private val sessions: List<ExerciseSession> = listOf(
+     /*   ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
         ExerciseSession(LocalDate.of(2024, 5, 24), LocalTime.of(1, 30, 0)),
         ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),
         ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
@@ -24,7 +24,7 @@ class HistoryListFragment : Fragment() {
         ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),
         ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
         ExerciseSession(LocalDate.of(2024, 5, 24), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),
+        ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),*/
     )
 
     override fun onCreateView(
