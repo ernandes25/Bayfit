@@ -25,7 +25,6 @@ class ExerciseSessionAdapter(
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         holder.bind(sessions[position])
-
         holder.itemView.setOnClickListener { onClickListener(sessions[position]) }
     }
 

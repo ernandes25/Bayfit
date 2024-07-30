@@ -5,36 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.baysoftware.bayfit.databinding.FragmentHistoryListBinding
 import com.baysoftware.bayfit.db.ExerciseSession
-import java.time.LocalDate
-import java.time.LocalTime
 
 class HistoryListFragment : Fragment() {
     private lateinit var adapter: ExerciseSessionAdapter
     private lateinit var binding: FragmentHistoryListBinding
-
-    private val sessions: List<ExerciseSession> = listOf(
-     /*   ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 24), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 24), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 25), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 24), LocalTime.of(1, 30, 0)),
-        ExerciseSession(LocalDate.of(2024, 5, 23), LocalTime.of(1, 30, 0)),*/
-    )
+    private val viewModel: HistoryListViewModel by viewModels()
+    private lateinit var sessions: MutableList<ExerciseSession>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentHistoryListBinding.inflate(inflater, container, false)
-
+        setupRecyclerView()
         return binding.root
     }
 
@@ -44,20 +32,26 @@ class HistoryListFragment : Fragment() {
     }
     private fun setupRecyclerView() {
         binding.recyclerViewHistory.layoutManager = LinearLayoutManager(context)
-        adapter = ExerciseSessionAdapter(requireContext(), sessions) { session ->
+        adapter = ExerciseSessionAdapter(requireContext(),  emptyList()) { session ->
         }
-
         binding.recyclerViewHistory.adapter = adapter
         updateViewVisibility()
+        // Observe the LiveData from the ViewModel
+        viewModel.allSessions.observe(viewLifecycleOwner) { sessions ->
+            //adapter.updateSessions(sessions)
+            this.sessions.addAll(sessions)
+            updateViewVisibility()
+        }
     }
 
     private fun updateViewVisibility() {
         if (sessions.isEmpty()) {
             binding.recyclerViewHistory.visibility = View.GONE
             binding.emptyView.visibility = View.VISIBLE
+
         } else {
             binding.recyclerViewHistory.visibility = View.VISIBLE
             binding.emptyView.visibility = View.GONE
-        }
+           }
     }
 }

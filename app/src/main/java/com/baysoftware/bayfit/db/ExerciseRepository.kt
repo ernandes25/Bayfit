@@ -1,14 +1,22 @@
 package com.baysoftware.bayfit.db
 
-import androidx.annotation.WorkerThread
-import kotlinx.coroutines.flow.Flow
+import android.content.Context
+import androidx.lifecycle.LiveData
+import com.baysoftware.bayfit.db.ExerciseSessionDAO
+import com.baysoftware.bayfit.db.ExerciseSessionEntity
 
-class ExerciseRepository(private val exerciseDao: ExerciseSessionDAO) {
+class ExerciseRepository(private val exerciseSessionDAO: ExerciseSessionDAO) {
 
-    val allExercises: List<ExerciseSessionEntity> = exerciseDao.getAllSessions()
+    val allExercises: List<ExerciseSessionEntity> = exerciseSessionDAO.getAllSessions()
 
-    @WorkerThread
-    suspend fun insert(data: ExerciseSessionEntity) {
-        exerciseDao.insert(data)
+
+    companion object{
+        //For Singleton instatiation
+        @Volatile private var instance: ExerciseRepository? = null
+        fun getInstance(exerciseSessionDAO: ExerciseSessionDAO) =
+            instance ?: synchronized(this) {
+                instance ?: ExerciseRepository(exerciseSessionDAO).also { instance = it}
+            }
     }
-}
+
+    }
