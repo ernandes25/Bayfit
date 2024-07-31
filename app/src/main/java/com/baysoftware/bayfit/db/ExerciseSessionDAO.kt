@@ -11,6 +11,5 @@ interface ExerciseSessionDAO {
     fun getAllSessions(): LiveData<List<ExerciseSessionEntity>>
 
     @Insert
-    fun insertSession(session: ExerciseSessionEntity)
-
+    suspend fun insertSession(session: ExerciseSessionEntity)  // Use 'suspend' para permitir corrotinas
 }

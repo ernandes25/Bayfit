@@ -1,12 +1,13 @@
 package com.baysoftware.bayfit.db
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Entity(tableName = "exercise_session")
 data class ExerciseSessionEntity(
-    @PrimaryKey @ColumnInfo(name = "data") val date: String,
-    @ColumnInfo(name = "duration") val duration: Int,
-    @ColumnInfo(name = "total_time_pause") val totalTimePause: Int
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    val date: LocalDate,
+    val duration: LocalTime
 )

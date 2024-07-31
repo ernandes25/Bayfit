@@ -7,20 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentHomeBinding
+import com.baysoftware.bayfit.db.ExerciseSessionEntity
 import com.baysoftware.bayfit.history.view.HistoryActivity
+import com.baysoftware.bayfit.history.view.HistoryListViewModel
 import com.baysoftware.bayfit.running.view.RunningActivity
+import java.time.LocalDate
+import java.time.LocalTime
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-
+    private val viewModel: HistoryListViewModel by viewModels()
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
@@ -38,8 +41,18 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonHistory.setOnClickListener {
+            addExampleSession()
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun addExampleSession() {
+        val newSession = ExerciseSessionEntity(
+            id = 0, // 0 para auto-geração de ID se o ID for auto-gerado pelo banco de dados
+            date = LocalDate.now(),
+            duration = LocalTime.now()
+        )
+        viewModel.insertSession(newSession)
     }
 }
