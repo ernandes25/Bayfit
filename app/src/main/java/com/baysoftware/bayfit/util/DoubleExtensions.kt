@@ -1,8 +1,8 @@
 package com.baysoftware.bayfit.util
 
+import android.annotation.SuppressLint
 
-
-
+@SuppressLint("DefaultLocale")
 fun Double.getTimeStringFromDouble(): String {
     val totalSeconds = this.toInt()
     val hours = totalSeconds / 3600

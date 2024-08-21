@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.baysoftware.bayfit.databinding.ItemExerciseSessionBinding
 import com.baysoftware.bayfit.db.ExerciseSessionEntity
 import com.baysoftware.bayfit.util.getTimeStringFromDouble
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class ExerciseSessionAdapter(
     private var sessions: List<ExerciseSessionEntity>,
@@ -14,12 +17,8 @@ class ExerciseSessionAdapter(
 
     inner class ViewHolder(private val binding: ItemExerciseSessionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(session: ExerciseSessionEntity) {
-            binding.dateItem.text = session.date.toString()
-
-            // Aqui estamos convertendo o tempo total para o formato HH:MM:SS
-            val formattedTime = session.totalTime.toDouble().getTimeStringFromDouble()
-            binding.duration.text = formattedTime
-
+            binding.dateItem.text = formatDate(session.date)
+            binding.duration.text = session.totalTime.toDouble().getTimeStringFromDouble()
             binding.root.setOnClickListener {
                 onClick(session)
             }
@@ -40,5 +39,10 @@ class ExerciseSessionAdapter(
     fun updateSessions(newSessions: List<ExerciseSessionEntity>) {
         sessions = newSessions
         notifyDataSetChanged()
+    }
+
+    private fun formatDate(date: LocalDate): String {
+        val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("pt", "BR"))
+        return date.format(formatter)
     }
 }
