@@ -1,27 +1,26 @@
 package com.baysoftware.bayfit.db
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import android.content.Context
 
 @Database(entities = [ExerciseSessionEntity::class], version = 1, exportSchema = false)
-@TypeConverters(DateTypeConverters::class)
-abstract class BayfitDatabase : RoomDatabase() {
-
+@TypeConverters(Converters::class)
+abstract class ExerciseDatabase : RoomDatabase() {
     abstract fun exerciseSessionDAO(): ExerciseSessionDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: BayfitDatabase? = null
+        private var INSTANCE: ExerciseDatabase? = null
 
-        fun getDatabase(context: Context): BayfitDatabase {
+        fun getDatabase(context: Context): ExerciseDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    BayfitDatabase::class.java,
-                    "bayfit_database"
+                    ExerciseDatabase::class.java,
+                    "exercise_database"
                 ).build()
                 INSTANCE = instance
                 instance

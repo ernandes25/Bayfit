@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,6 +10,9 @@
         android:name="com.baysoftware.bayfit.home.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_history_list"
+            app:destination="@id/historyListFragment" />
         <action
             android:id="@+id/action_fragment_home_to_fragment_settings"
             app:destination="@id/fragment_settings" />
@@ -31,7 +33,6 @@
         android:name="com.baysoftware.bayfit.settings.view.TimerCountTypeFragment"
         android:label="fragment_timer_count_type"
         tools:layout="@layout/fragment_timer_count_type">
-
         <action
             android:id="@+id/action_fragment_timer_count_type_to_fragment_timer_setter"
             app:destination="@id/fragment_timer_setter" />
@@ -42,5 +43,4 @@
         android:name="com.baysoftware.bayfit.settings.view.TimerSetterFragment"
         android:label="fragment_timer_setter"
         tools:layout="@layout/fragment_timer_setter"/>
-
 </navigation>

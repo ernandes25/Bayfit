@@ -1,42 +1,44 @@
 package com.baysoftware.bayfit.history.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.baysoftware.bayfit.R
+import com.baysoftware.bayfit.databinding.ItemExerciseSessionBinding
 import com.baysoftware.bayfit.db.ExerciseSessionEntity
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
 
 class ExerciseSessionAdapter(
     private var sessions: List<ExerciseSessionEntity>,
     private val onClick: (ExerciseSessionEntity) -> Unit
-) : RecyclerView.Adapter<ExerciseSessionAdapter.ExerciseViewHolder>() {
+) : RecyclerView.Adapter<ExerciseSessionAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_exercise_session, parent, false)
-        return ExerciseViewHolder(view)
+    inner class ViewHolder(private val binding: ItemExerciseSessionBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(session: ExerciseSessionEntity) {
+            binding.dateItem.text = session.date.toString()
+
+            // Aqui estamos convertendo o tempo total para o formato HH:MM:SS
+            val formattedTime = session.totalTime.toDouble().getTimeStringFromDouble()
+            binding.duration.text = formattedTime
+
+            binding.root.setOnClickListener {
+                onClick(session)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemExerciseSessionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(sessions[position])
-        holder.itemView.setOnClickListener { onClick(sessions[position]) }
     }
 
     override fun getItemCount(): Int = sessions.size
 
     fun updateSessions(newSessions: List<ExerciseSessionEntity>) {
-        this.sessions = newSessions
+        sessions = newSessions
         notifyDataSetChanged()
-    }
-
-    class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dateTextView: TextView = itemView.findViewById(R.id.date_item)
-        private val durationTextView: TextView = itemView.findViewById(R.id.duration)
-
-        fun bind(session: ExerciseSessionEntity) {
-            dateTextView.text = session.date.toString()
-            durationTextView.text = session.duration.toString()
-        }
     }
 }

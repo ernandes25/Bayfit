@@ -17,17 +17,23 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
-import com.baysoftware.bayfit.util.getTimeStringFromDouble
+import com.baysoftware.bayfit.db.ExerciseSessionEntity
+import com.baysoftware.bayfit.preferences.UserManager
 import com.baysoftware.bayfit.running.service.DecreasingTimerService
 import com.baysoftware.bayfit.running.service.IncreasingTimerService
 import com.baysoftware.bayfit.running.service.TimerService
 import com.baysoftware.bayfit.running.service.TotalTimerService
-import com.baysoftware.bayfit.preferences.UserManager
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
+import com.baysoftware.bayfit.viewmodel.TimerViewModel
+import com.baysoftware.bayfit.viewmodel.TimerViewModelFactory
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 
 class TimerFragment : Fragment() {
 
@@ -35,19 +41,21 @@ class TimerFragment : Fragment() {
     private lateinit var totalTimerServiceIntent: Intent
     private lateinit var restTimerServiceIntent: Intent
     private lateinit var timerMode: UserManager.TimerMode
+    private val viewModel: TimerViewModel by viewModels {
+        TimerViewModelFactory(requireActivity().application)
+    }
 
     private var totalRestTime = 0.00
     private var restTime = 0.00
     private var increasingTime = 0.00
     private var isResting = false
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
 
-        //Iniciando contador de tempo total
+        // Iniciando contador de tempo total
         totalTimerServiceIntent = Intent(requireActivity(), TotalTimerService::class.java)
         totalTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         registerReceiver(
@@ -58,7 +66,7 @@ class TimerFragment : Fragment() {
         )
         requireActivity().startService(totalTimerServiceIntent)
 
-        //Iniciando contador de tempo de descanso
+        // Iniciando contador de tempo de descanso
         lifecycleScope.launch {
             timerMode = UserManager.getInstance().readTimerMode(requireContext())
             when (timerMode) {
@@ -67,7 +75,8 @@ class TimerFragment : Fragment() {
                     // Se o tempo for livre, o intent tem que ser configurado para que o serviço seja
                     // CRESCENTE, portanto não há necessidade de consultar o DataStore para obter tempo
                     // informado pelo usuário.
-                    restTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
+                    restTimerServiceIntent =
+                        Intent(requireContext(), IncreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, 0.0)
                 }
 
@@ -75,9 +84,12 @@ class TimerFragment : Fragment() {
                     // Se o tempo for pré-definido, o intent tem que ser configurado para que o serviço
                     // seja DECRESCENTE, e o valor padrão deve ser obtido do DataStore, que por sua vez
                     // foi informado pelo usuário.
-                    val timerConfiguration = UserManager.getInstance().readTimerConfiguration(requireContext())
-                    restTime = timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
-                    restTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
+                    val timerConfiguration =
+                        UserManager.getInstance().readTimerConfiguration(requireContext())
+                    restTime =
+                        timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
+                    restTimerServiceIntent =
+                        Intent(requireContext(), DecreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, restTime)
                 }
             }
@@ -89,22 +101,35 @@ class TimerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.resumeButton.setOnLongClickListener {
             stopTrainingSession()
-
-            return@setOnLongClickListener true
+            saveExerciseSession()
+            navigateToResultScreen()
+            true
         }
 
         binding.pauseButton.setOnClickListener { pauseTimer() }
         binding.resumeButton.setOnClickListener { resumeTraining() }
     }
 
-    //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
+    private fun saveExerciseSession() {
+        val newSession = ExerciseSessionEntity(
+            id = 0, // Auto-geração de ID pelo banco de dados
+            date = LocalDate.now(),
+            startTime = LocalTime.now().minusMinutes(30), // Exemplo de hora de início
+            endTime = LocalTime.now(), // Hora de término atual
+            totalTime = increasingTime.toInt(), // Tempo total em segundos
+            restTime = totalRestTime.toInt() // Tempo de descanso em segundos
+        )
+        viewModel.insertSession(newSession)
+    }
 
     private fun stopTrainingSession() {
         requireActivity().stopService(totalTimerServiceIntent)
         requireActivity().stopService(restTimerServiceIntent)
         requireActivity().unregisterReceiver(updateTotalTimerBroadcastReceiver)
         requireActivity().unregisterReceiver(updateRestTimerBroadcastReceiver)
+    }
 
+    private fun navigateToResultScreen() {
         val bundle = bundleOf(
             "endTime" to binding.secondaryTimer.text,
             "endRest" to totalRestTime
@@ -127,7 +152,7 @@ class TimerFragment : Fragment() {
         if (timerMode == UserManager.TimerMode.FREE) {
             startRestTimer(IncreasingTimerService.TIMER_UPDATE)
 
-            //View updates
+            // Atualizações de visualização
             binding.pauseButton.isInvisible = true
             binding.resumeButton.isInvisible = false
             binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
@@ -136,7 +161,7 @@ class TimerFragment : Fragment() {
         } else {
             startRestTimer(DecreasingTimerService.TIMER_UPDATE)
 
-            //View updates
+            // Atualizações de visualização
             binding.textRest.isInvisible = false
             binding.pauseButton.isInvisible = true
             binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
@@ -146,7 +171,6 @@ class TimerFragment : Fragment() {
     }
 
     private fun resumeTraining() {
-
         isResting = false
         requireActivity().stopService(restTimerServiceIntent)
         binding.resumeButton.isInvisible = true
@@ -198,5 +222,6 @@ class TimerFragment : Fragment() {
 
             binding.primaryTimer.text = time.getTimeStringFromDouble()
         }
+
     }
 }
