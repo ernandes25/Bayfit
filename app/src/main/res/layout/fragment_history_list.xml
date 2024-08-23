@@ -59,7 +59,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_exercise_session" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
