@@ -35,7 +35,7 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.allSessions.observe(this) { newSessions ->
+        viewModel.exerciseSessions.observe(this) { newSessions ->
             sessions.clear()
             sessions.addAll(newSessions)
             adapter.notifyDataSetChanged()

@@ -1,5 +1,6 @@
 package com.baysoftware.bayfit.history.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,18 +13,22 @@ class ExerciseSessionAdapter(
     private val onClick: (ExerciseSessionEntity) -> Unit
 ) : RecyclerView.Adapter<ExerciseSessionAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemExerciseSessionBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemExerciseSessionBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(session: ExerciseSessionEntity) {
             binding.dateItem.text = session.date.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"))
             binding.duration.text = session.totalTime.toDouble().getTimeStringFromDouble()
+
             binding.root.setOnClickListener {
                 onClick(session)
             }
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemExerciseSessionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemExerciseSessionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

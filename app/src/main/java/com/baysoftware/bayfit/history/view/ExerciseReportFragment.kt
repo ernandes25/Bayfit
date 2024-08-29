@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.baysoftware.bayfit.databinding.FragmentExerciseReportBinding
 import com.baysoftware.bayfit.util.getTimeStringFromDouble
-
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ExerciseReportFragment : Fragment() {
 
@@ -21,7 +21,7 @@ class ExerciseReportFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentExerciseReportBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,11 +33,17 @@ class ExerciseReportFragment : Fragment() {
 
     private fun displaySessionDetails() {
         val session = args.session
-        binding.date.text = session.date.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+
+        val formattedDate: String = try {
+            val date = Date(session.date as Long) // Converte timestamp para Date
+            SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date)
+        } catch (e: Exception) {
+            "Data inválida"
+        }
+
+        binding.date.text = formattedDate
         binding.timeTotal.text = session.totalTime.toDouble().getTimeStringFromDouble()
         binding.timeRestTotal.text = session.restTime.toDouble().getTimeStringFromDouble()
-        binding.trainingStart.text = session.startTime.toString()
-        binding.endTraining.text = session.endTime.toString()
     }
 
     override fun onDestroyView() {

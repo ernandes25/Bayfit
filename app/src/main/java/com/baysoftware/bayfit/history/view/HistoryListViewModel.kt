@@ -10,13 +10,14 @@ import com.baysoftware.bayfit.db.ExerciseSessionDAO
 import kotlinx.coroutines.launch
 
 class HistoryListViewModel(application: Application) : AndroidViewModel(application) {
+
     private val exerciseSessionDAO: ExerciseSessionDAO
-    val allSessions: LiveData<List<ExerciseSessionEntity>>
+    val exerciseSessions: LiveData<List<ExerciseSessionEntity>>
 
     init {
         val database = ExerciseDatabase.getDatabase(application)
         exerciseSessionDAO = database.exerciseSessionDAO()
-        allSessions = exerciseSessionDAO.getAllSessions()
+        exerciseSessions = exerciseSessionDAO.getAllSessions()
     }
 
     fun insertSession(session: ExerciseSessionEntity) {
