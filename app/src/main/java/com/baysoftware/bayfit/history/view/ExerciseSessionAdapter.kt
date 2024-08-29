@@ -1,4 +1,4 @@
-package com.baysoftware.bayfit.history.view.adapter
+package com.baysoftware.bayfit.history.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +9,14 @@ import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.db.ExerciseSessionEntity
 
 class ExerciseSessionAdapter(
-    private var sessions: List<ExerciseSessionEntity>,
     private val onClick: (ExerciseSessionEntity) -> Unit
 ) : RecyclerView.Adapter<ExerciseSessionAdapter.ExerciseViewHolder>() {
 
+    private lateinit var sessions: List<ExerciseSessionEntity>
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_exercise_session, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_exercise_session, parent, false)
         return ExerciseViewHolder(view)
     }
 
@@ -25,8 +27,8 @@ class ExerciseSessionAdapter(
 
     override fun getItemCount(): Int = sessions.size
 
-    fun updateSessions(newSessions: List<ExerciseSessionEntity>) {
-        this.sessions = newSessions
+    fun updateSessions(sessions: List<ExerciseSessionEntity>) {
+        this.sessions = sessions
         notifyDataSetChanged()
     }
 

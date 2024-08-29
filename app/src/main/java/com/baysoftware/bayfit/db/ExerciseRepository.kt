@@ -1,20 +1,20 @@
 package com.baysoftware.bayfit.db
 
-import androidx.lifecycle.LiveData
+import com.baysoftware.bayfit.history.model.ExerciseSessionModel
+import com.baysoftware.bayfit.history.model.toEntity
 
 class ExerciseRepository(private val exerciseSessionDAO: ExerciseSessionDAO) {
 
-    val allExercises: LiveData<List<ExerciseSessionEntity>> = exerciseSessionDAO.getAllSessions()
-
-    suspend fun insertSession(session: ExerciseSessionEntity) {
-        exerciseSessionDAO.insertSession(session)
+    suspend fun getAllSessions(): List<ExerciseSessionModel> {
+        return exerciseSessionDAO.getAllSessions().map { it.toModel() }
+    }
+    
+    suspend fun insertSession(session: ExerciseSessionModel) {
+        val sessionEntity = session.toEntity()
+        exerciseSessionDAO.insertSession(sessionEntity)
     }
 
-    companion object {
-        @Volatile private var instance: ExerciseRepository? = null
-        fun getInstance(exerciseSessionDAO: ExerciseSessionDAO) =
-            instance ?: synchronized(this) {
-                instance ?: ExerciseRepository(exerciseSessionDAO).also { instance = it }
-            }
+    suspend fun deleteSession(exerciseSessionId: Long) {
+        exerciseSessionDAO.deleteSession(exerciseSessionId)
     }
 }

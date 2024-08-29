@@ -2,6 +2,7 @@ package com.baysoftware.bayfit.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.baysoftware.bayfit.history.model.ExerciseSessionModel
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -11,3 +12,10 @@ data class ExerciseSessionEntity(
     val date: LocalDate,
     val duration: LocalTime
 )
+
+fun ExerciseSessionEntity.toModel() =
+    ExerciseSessionModel(
+        id = this.id,
+        date = this.date.toString(),
+        duration = this.duration.toString()
+    )
