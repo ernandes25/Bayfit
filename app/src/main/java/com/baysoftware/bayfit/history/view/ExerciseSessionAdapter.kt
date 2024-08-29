@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.db.ExerciseSessionEntity
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
 
 class ExerciseSessionAdapter(
     private val onClick: (ExerciseSessionEntity) -> Unit
@@ -27,8 +28,8 @@ class ExerciseSessionAdapter(
 
     override fun getItemCount(): Int = sessions.size
 
-    fun updateSessions(sessions: List<ExerciseSessionEntity>) {
-        this.sessions = sessions
+    fun updateSessions(newSessions: List<ExerciseSessionEntity>) {
+        sessions = newSessions
         notifyDataSetChanged()
     }
 
@@ -37,8 +38,8 @@ class ExerciseSessionAdapter(
         private val durationTextView: TextView = itemView.findViewById(R.id.duration)
 
         fun bind(session: ExerciseSessionEntity) {
-            dateTextView.text = session.date.toString()
-            durationTextView.text = session.duration.toString()
+            dateTextView.text = session.date.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"))
+            durationTextView.text = session.duration.toDouble().getTimeStringFromDouble()
         }
     }
 }

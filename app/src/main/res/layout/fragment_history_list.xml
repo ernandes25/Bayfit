@@ -39,7 +39,6 @@
                 android:text="@string/no_registry"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_timer_small"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +47,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_history"
+            android:id="@+id/recyclerViewHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
@@ -59,7 +58,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_exercise_session" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

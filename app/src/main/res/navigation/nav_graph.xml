@@ -18,6 +18,20 @@
         android:id="@+id/historyListFragment"
         android:name="com.baysoftware.bayfit.history.view.HistoryListFragment"
         android:label="Histórico"
-        tools:layout="@layout/fragment_history_list" />
+        tools:layout="@layout/fragment_history_list">
+        <action
+            android:id="@+id/action_historyListFragment_to_exerciseReportFragment"
+            app:destination="@id/exerciseReportFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/exerciseReportFragment"
+        android:name="com.baysoftware.bayfit.history.view.ExerciseReportFragment"
+        android:label="Detalhes do Exercício"
+        tools:layout="@layout/fragment_exercise_report">
+        <argument
+            android:name="session"
+            app:argType="com.baysoftware.bayfit.db.ExerciseSessionEntity" />
+    </fragment>
 
 </navigation>

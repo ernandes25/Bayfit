@@ -3,38 +3,25 @@ package com.baysoftware.bayfit.db
 import androidx.room.TypeConverter
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
-object DateTypeConverters {
-
-    private val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
-    private val timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME
-
+class Converters {
     @TypeConverter
-    @JvmStatic
-    fun fromLocalDate(date: LocalDate?): String? {
-        return date?.format(dateFormatter)
+    fun fromLocalDate(date: LocalDate): String {
+        return date.toString()
     }
 
     @TypeConverter
-    @JvmStatic
-    fun toLocalDate(dateString: String?): LocalDate? {
-        return dateString?.let {
-            LocalDate.parse(it, dateFormatter)
-        }
+    fun toLocalDate(dateString: String): LocalDate {
+        return LocalDate.parse(dateString)
     }
 
     @TypeConverter
-    @JvmStatic
-    fun fromLocalTime(time: LocalTime?): String? {
-        return time?.format(timeFormatter)
+    fun fromLocalTime(time: LocalTime): String {
+        return time.toString()
     }
 
     @TypeConverter
-    @JvmStatic
-    fun toLocalTime(timeString: String?): LocalTime? {
-        return timeString?.let {
-            LocalTime.parse(it, timeFormatter)
-        }
+    fun toLocalTime(timeString: String): LocalTime {
+        return LocalTime.parse(timeString)
     }
 }

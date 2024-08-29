@@ -21,9 +21,12 @@ import java.time.LocalTime
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HistoryListViewModel by viewModels()
+    //  private val viewModel: HistoryListViewModel by viewModels()
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
 
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
@@ -41,18 +44,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonHistory.setOnClickListener {
-            addExampleSession()
             val intent = Intent(requireContext(), HistoryActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun addExampleSession() {
-        val newSession = ExerciseSessionEntity(
-            id = 0, // 0 para auto-geração de ID se o ID for auto-gerado pelo banco de dados
-            date = LocalDate.now(),
-            duration = LocalTime.now()
-        )
-        viewModel.insertSession(newSession)
     }
 }

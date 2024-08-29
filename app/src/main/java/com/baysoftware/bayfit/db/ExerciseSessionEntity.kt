@@ -6,11 +6,15 @@ import com.baysoftware.bayfit.history.model.ExerciseSessionModel
 import java.time.LocalDate
 import java.time.LocalTime
 
-@Entity(tableName = "exercise_session")
+@Entity(tableName = "exercise_sessions")
 data class ExerciseSessionEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val date: LocalDate,
-    val duration: LocalTime
+    val duration: LocalTime,
+    var totalTime: Int,
+    var startTime: LocalTime,
+    var endTime: LocalTime,
+    var restTime: Int
 )
 
 fun ExerciseSessionEntity.toModel() =

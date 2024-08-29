@@ -1,15 +1,12 @@
 package com.baysoftware.bayfit.util
 
-import kotlin.math.roundToInt
+import android.annotation.SuppressLint
 
-const val TOTAL_MINUTES_IN_DAY = 86400
-const val TOTAL_MINUTES_IN_HOUR = 3600
-const val TOTAL_HOURS = 60
-
+@SuppressLint("DefaultLocale")
 fun Double.getTimeStringFromDouble(): String {
-    val resultInt = this.roundToInt()
-    val hours = resultInt % TOTAL_MINUTES_IN_DAY / TOTAL_MINUTES_IN_HOUR
-    val minutes = resultInt % TOTAL_MINUTES_IN_DAY % TOTAL_MINUTES_IN_HOUR / TOTAL_HOURS
-    val seconds = resultInt % TOTAL_MINUTES_IN_DAY % TOTAL_MINUTES_IN_HOUR % TOTAL_HOURS
+    val totalSeconds = this.toInt()
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
+    val seconds = totalSeconds % 60
     return String.format("%02d:%02d:%02d", hours, minutes, seconds)
 }
