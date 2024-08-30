@@ -7,21 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentHomeBinding
-import com.baysoftware.bayfit.db.ExerciseSessionEntity
 import com.baysoftware.bayfit.history.view.HistoryActivity
-import com.baysoftware.bayfit.history.view.HistoryListViewModel
 import com.baysoftware.bayfit.running.view.RunningActivity
-import java.time.LocalDate
-import java.time.LocalTime
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    //  private val viewModel: HistoryListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

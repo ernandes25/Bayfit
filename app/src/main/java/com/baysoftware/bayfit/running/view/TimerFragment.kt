@@ -22,19 +22,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
-import com.baysoftware.bayfit.db.ExerciseSessionEntity
 import com.baysoftware.bayfit.preferences.UserManager
 import com.baysoftware.bayfit.running.service.DecreasingTimerService
 import com.baysoftware.bayfit.running.service.IncreasingTimerService
 import com.baysoftware.bayfit.running.service.TimerService
 import com.baysoftware.bayfit.running.service.TotalTimerService
 import com.baysoftware.bayfit.util.getTimeStringFromDouble
-import com.baysoftware.bayfit.viewmodel.TimerViewModel
-import com.baysoftware.bayfit.viewmodel.TimerViewModelFactory
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneOffset
 
 class TimerFragment : Fragment() {
 
@@ -42,14 +36,17 @@ class TimerFragment : Fragment() {
     private lateinit var totalTimerServiceIntent: Intent
     private lateinit var restTimerServiceIntent: Intent
     private lateinit var timerMode: UserManager.TimerMode
+    private var broadcastReceivers = mutableListOf<BroadcastReceiver>()
     private val viewModel: TimerViewModel by viewModels {
-        TimerViewModelFactory(requireActivity().application)
+        TimerViewModel.provideFactory(requireActivity().application, this)
     }
 
     private var totalRestTime = 0.00
     private var restTime = 0.00
     private var increasingTime = 0.00
     private var isResting = false
+
+    // region Lifecycle methods
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -66,6 +63,9 @@ class TimerFragment : Fragment() {
             RECEIVER_NOT_EXPORTED
         )
         requireActivity().startService(totalTimerServiceIntent)
+        broadcastReceivers.add(updateTotalTimerBroadcastReceiver)
+
+        viewModel.startSession()
 
         // Iniciando contador de tempo de descanso
         lifecycleScope.launch {
@@ -101,9 +101,12 @@ class TimerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.resumeButton.setOnLongClickListener {
-            stopTrainingSession()
-            saveExerciseSession()
-            navigateToResultScreen()
+            finishTrainingSession()
+            true
+        }
+
+        binding.pauseButton.setOnLongClickListener {
+            finishTrainingSession()
             true
         }
 
@@ -111,32 +114,9 @@ class TimerFragment : Fragment() {
         binding.resumeButton.setOnClickListener { resumeTraining() }
     }
 
-    private fun saveExerciseSession() {
-        val newSession = ExerciseSessionEntity(
-            id = 0, // Auto-geração de ID pelo banco de dados
-            date = LocalDate.now(),
-            startTime = LocalTime.now().minusMinutes(30), // Exemplo de hora de início
-            endTime = LocalTime.now(), // Hora de término atual
-            totalTime = increasingTime.toInt(), // Tempo total em segundos
-            restTime = totalRestTime.toInt() // Tempo de descanso em segundos
-        )
-        viewModel.insertSession(newSession)
-    }
+    // endregion
 
-    private fun stopTrainingSession() {
-        requireActivity().stopService(totalTimerServiceIntent)
-        requireActivity().stopService(restTimerServiceIntent)
-        requireActivity().unregisterReceiver(updateTotalTimerBroadcastReceiver)
-        requireActivity().unregisterReceiver(updateRestTimerBroadcastReceiver)
-    }
-
-    private fun navigateToResultScreen() {
-        val bundle = bundleOf(
-            "endTime" to binding.secondaryTimer.text,
-            "endRest" to totalRestTime
-        )
-        findNavController().navigate(R.id.action_timer_fragment_to_fragment_result, bundle)
-    }
+    // region Timer control methods
 
     private fun vibrate(duration: Long = 500) {
         val vibrator = requireContext().getSystemService() as? Vibrator
@@ -189,12 +169,36 @@ class TimerFragment : Fragment() {
             RECEIVER_NOT_EXPORTED
         )
         requireActivity().startService(restTimerServiceIntent)
+        broadcastReceivers.add(updateRestTimerBroadcastReceiver)
     }
 
     private fun stopTimer() {
         requireActivity().stopService(restTimerServiceIntent)
         isResting = true
     }
+
+    private fun finishTrainingSession() {
+        // Encerra os serviços que fornecem atualizações de tempo
+        requireActivity().stopService(totalTimerServiceIntent)
+        requireActivity().stopService(restTimerServiceIntent)
+        broadcastReceivers.forEach { receiver ->
+            requireActivity().unregisterReceiver(receiver)
+        }
+
+        // Chama o ViewModel, que irá salvar a sessão de exercícios no banco de dados
+        viewModel.saveSession(System.currentTimeMillis(), totalRestTime.toLong())
+
+        // Navega para a tela de resultados
+        val bundle = bundleOf(
+            "endTime" to binding.secondaryTimer.text,
+            "endRest" to totalRestTime
+        )
+        findNavController().navigate(R.id.action_timer_fragment_to_fragment_result, bundle)
+    }
+
+    // endregion
+
+    // region Broadcast receivers
 
     private val updateTotalTimerBroadcastReceiver: BroadcastReceiver =
         object : BroadcastReceiver() {
@@ -209,20 +213,22 @@ class TimerFragment : Fragment() {
             }
         }
 
-    private val updateRestTimerBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+    private val updateRestTimerBroadcastReceiver: BroadcastReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
 
-            if (timerMode == UserManager.TimerMode.PREDEFINED && time == 0.00) {
-                stopTimer()
-                binding.resumeButton.isInvisible = false
-                binding.textRest.isInvisible = true
-                vibrate()
+                if (timerMode == UserManager.TimerMode.PREDEFINED && time == 0.00) {
+                    stopTimer()
+                    binding.resumeButton.isInvisible = false
+                    binding.textRest.isInvisible = true
+                    vibrate()
+                }
+                totalRestTime++
+
+                binding.primaryTimer.text = time.getTimeStringFromDouble()
             }
-            totalRestTime++
-
-            binding.primaryTimer.text = time.getTimeStringFromDouble()
         }
 
-    }
+    // endregion
 }

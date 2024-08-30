@@ -1,22 +1,22 @@
-package com.baysoftware.bayfit.history.view
+package com.baysoftware.bayfit.running.view
 
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.savedstate.SavedStateRegistryOwner
 import com.baysoftware.bayfit.db.ExerciseDatabase
 import com.baysoftware.bayfit.db.ExerciseRepository
 import com.baysoftware.bayfit.history.model.ExerciseSessionModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
-class HistoryListViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
+class TimerViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
 
     companion object {
         /**
@@ -36,28 +36,30 @@ class HistoryListViewModel(private val exerciseRepository: ExerciseRepository) :
                 ): T {
                     val database = ExerciseDatabase.getDatabase(application)
                     val exerciseRepository = ExerciseRepository(database.exerciseSessionDAO())
-                    return HistoryListViewModel(exerciseRepository) as T
+                    return TimerViewModel(exerciseRepository) as T
                 }
             }
     }
 
-    private val mutableExerciseSessions = MutableLiveData<List<ExerciseSessionModel>>()
-    val exerciseSessions: LiveData<List<ExerciseSessionModel>>
-        get() = mutableExerciseSessions
+    private var startTime: Long = 0L
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            val sessions = exerciseRepository.getAllSessions()
-            CoroutineScope(Dispatchers.Main).launch {
-                mutableExerciseSessions.value = sessions
-            }
-        }
+    fun startSession() {
+        startTime = System.currentTimeMillis()
     }
 
-//    suspend fun getSessionById(id: Long): ExerciseSessionModel {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            exerciseRepository.getSessionById(id)
-//        }
-//    }
-
+    /**
+     * Chama o repositório, que irá chamar o DAO para inserir uma sessão de exercícios no banco de dados.
+     */
+    fun saveSession(endTime: Long, totalRestTime: Long) {
+        viewModelScope.launch {
+            val exerciseSession = ExerciseSessionModel(
+                date = LocalDate.now().toString(),
+                duration = endTime - startTime,
+                startTime = startTime,
+                endTime = endTime,
+                restTime = totalRestTime
+            )
+            exerciseRepository.insertSession(exerciseSession)
+        }
+    }
 }
