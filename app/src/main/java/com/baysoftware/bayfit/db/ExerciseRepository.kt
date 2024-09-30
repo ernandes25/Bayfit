@@ -12,7 +12,6 @@ class ExerciseRepository(private val exerciseSessionDAO: ExerciseSessionDAO) {
             exerciseSessionDAO.getAllSessions().map { it.toModel() }
         }
 
-
     suspend fun getSessionById(id: Long): ExerciseSessionModel =
         withContext(Dispatchers.IO) {
             exerciseSessionDAO.getSessionById(id).toModel()

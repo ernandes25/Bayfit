@@ -5,6 +5,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class Converters {
+
     @TypeConverter
     fun fromLocalDate(date: LocalDate): String {
         return date.toString()

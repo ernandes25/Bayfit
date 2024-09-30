@@ -36,10 +36,10 @@ class ExerciseReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sessionId = arguments?.getLong("sessionId") ?: 0
-        if (sessionId > 0) {
+//        if (sessionId > 0) {
 //            val session = viewModel.getSessionById(sessionId)
 //            displaySessionDetails(session)
-        }
+//        }
     }
 
     // endregion
