@@ -11,6 +11,7 @@ import com.baysoftware.bayfit.databinding.FragmentResultBinding
 import com.baysoftware.bayfit.util.getTimeStringFromDouble
 
 class ResultFragment : Fragment() {
+
     private lateinit var binding: FragmentResultBinding
 
     override fun onCreateView(

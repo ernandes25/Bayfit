@@ -3,10 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_history"
-    app:startDestination="@id/historyFragment">
+    app:startDestination="@id/fragment_history">
+
     <fragment
-        android:id="@+id/historyFragment"
+        android:id="@+id/fragment_history"
         android:name="com.baysoftware.bayfit.history.view.HistoryListFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history_list" />
+
+    <fragment
+        android:id="@+id/fragment_exercise_report"
+        android:name="com.baysoftware.bayfit.history.view.ExerciseReportFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history_list" >
+        <argument
+            android:name="sessionId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+
 </navigation>

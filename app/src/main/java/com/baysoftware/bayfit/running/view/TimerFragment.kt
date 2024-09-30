@@ -17,16 +17,17 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.baysoftware.bayfit.R
 import com.baysoftware.bayfit.databinding.FragmentTimerBinding
-import com.baysoftware.bayfit.util.getTimeStringFromDouble
+import com.baysoftware.bayfit.preferences.UserManager
 import com.baysoftware.bayfit.running.service.DecreasingTimerService
 import com.baysoftware.bayfit.running.service.IncreasingTimerService
 import com.baysoftware.bayfit.running.service.TimerService
 import com.baysoftware.bayfit.running.service.TotalTimerService
-import com.baysoftware.bayfit.preferences.UserManager
+import com.baysoftware.bayfit.util.getTimeStringFromDouble
 import kotlinx.coroutines.launch
 
 class TimerFragment : Fragment() {
@@ -35,19 +36,24 @@ class TimerFragment : Fragment() {
     private lateinit var totalTimerServiceIntent: Intent
     private lateinit var restTimerServiceIntent: Intent
     private lateinit var timerMode: UserManager.TimerMode
+    private var broadcastReceivers = mutableListOf<BroadcastReceiver>()
+    private val viewModel: TimerViewModel by viewModels {
+        TimerViewModel.provideFactory(requireActivity().application, this)
+    }
 
     private var totalRestTime = 0.00
     private var restTime = 0.00
     private var increasingTime = 0.00
     private var isResting = false
 
+    // region Lifecycle methods
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_timer, container, false)
 
-        //Iniciando contador de tempo total
+        // Iniciando contador de tempo total
         totalTimerServiceIntent = Intent(requireActivity(), TotalTimerService::class.java)
         totalTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         registerReceiver(
@@ -57,8 +63,11 @@ class TimerFragment : Fragment() {
             RECEIVER_NOT_EXPORTED
         )
         requireActivity().startService(totalTimerServiceIntent)
+        broadcastReceivers.add(updateTotalTimerBroadcastReceiver)
 
-        //Iniciando contador de tempo de descanso
+        viewModel.startSession()
+
+        // Iniciando contador de tempo de descanso
         lifecycleScope.launch {
             timerMode = UserManager.getInstance().readTimerMode(requireContext())
             when (timerMode) {
@@ -67,7 +76,8 @@ class TimerFragment : Fragment() {
                     // Se o tempo for livre, o intent tem que ser configurado para que o serviço seja
                     // CRESCENTE, portanto não há necessidade de consultar o DataStore para obter tempo
                     // informado pelo usuário.
-                    restTimerServiceIntent = Intent(requireContext(), IncreasingTimerService::class.java)
+                    restTimerServiceIntent =
+                        Intent(requireContext(), IncreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, 0.0)
                 }
 
@@ -75,9 +85,12 @@ class TimerFragment : Fragment() {
                     // Se o tempo for pré-definido, o intent tem que ser configurado para que o serviço
                     // seja DECRESCENTE, e o valor padrão deve ser obtido do DataStore, que por sua vez
                     // foi informado pelo usuário.
-                    val timerConfiguration = UserManager.getInstance().readTimerConfiguration(requireContext())
-                    restTime = timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
-                    restTimerServiceIntent = Intent(requireContext(), DecreasingTimerService::class.java)
+                    val timerConfiguration =
+                        UserManager.getInstance().readTimerConfiguration(requireContext())
+                    restTime =
+                        timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
+                    restTimerServiceIntent =
+                        Intent(requireContext(), DecreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, restTime)
                 }
             }
@@ -88,29 +101,22 @@ class TimerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.resumeButton.setOnLongClickListener {
-            stopTrainingSession()
+            finishTrainingSession()
+            true
+        }
 
-            return@setOnLongClickListener true
+        binding.pauseButton.setOnLongClickListener {
+            finishTrainingSession()
+            true
         }
 
         binding.pauseButton.setOnClickListener { pauseTimer() }
         binding.resumeButton.setOnClickListener { resumeTraining() }
     }
 
-    //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
+    // endregion
 
-    private fun stopTrainingSession() {
-        requireActivity().stopService(totalTimerServiceIntent)
-        requireActivity().stopService(restTimerServiceIntent)
-        requireActivity().unregisterReceiver(updateTotalTimerBroadcastReceiver)
-        requireActivity().unregisterReceiver(updateRestTimerBroadcastReceiver)
-
-        val bundle = bundleOf(
-            "endTime" to binding.secondaryTimer.text,
-            "endRest" to totalRestTime
-        )
-        findNavController().navigate(R.id.action_timer_fragment_to_fragment_result, bundle)
-    }
+    // region Timer control methods
 
     private fun vibrate(duration: Long = 500) {
         val vibrator = requireContext().getSystemService() as? Vibrator
@@ -127,7 +133,7 @@ class TimerFragment : Fragment() {
         if (timerMode == UserManager.TimerMode.FREE) {
             startRestTimer(IncreasingTimerService.TIMER_UPDATE)
 
-            //View updates
+            // Atualizações de visualização
             binding.pauseButton.isInvisible = true
             binding.resumeButton.isInvisible = false
             binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
@@ -136,7 +142,7 @@ class TimerFragment : Fragment() {
         } else {
             startRestTimer(DecreasingTimerService.TIMER_UPDATE)
 
-            //View updates
+            // Atualizações de visualização
             binding.textRest.isInvisible = false
             binding.pauseButton.isInvisible = true
             binding.primaryTimer.setTextColor(resources.getColor(R.color.green, null))
@@ -146,7 +152,6 @@ class TimerFragment : Fragment() {
     }
 
     private fun resumeTraining() {
-
         isResting = false
         requireActivity().stopService(restTimerServiceIntent)
         binding.resumeButton.isInvisible = true
@@ -164,12 +169,36 @@ class TimerFragment : Fragment() {
             RECEIVER_NOT_EXPORTED
         )
         requireActivity().startService(restTimerServiceIntent)
+        broadcastReceivers.add(updateRestTimerBroadcastReceiver)
     }
 
     private fun stopTimer() {
         requireActivity().stopService(restTimerServiceIntent)
         isResting = true
     }
+
+    private fun finishTrainingSession() {
+        // Encerra os serviços que fornecem atualizações de tempo
+        requireActivity().stopService(totalTimerServiceIntent)
+        requireActivity().stopService(restTimerServiceIntent)
+        broadcastReceivers.forEach { receiver ->
+            requireActivity().unregisterReceiver(receiver)
+        }
+
+        // Chama o ViewModel, que irá salvar a sessão de exercícios no banco de dados
+        viewModel.saveSession(System.currentTimeMillis(), totalRestTime.toLong())
+
+        // Navega para a tela de resultados
+        val bundle = bundleOf(
+            "endTime" to binding.secondaryTimer.text,
+            "endRest" to totalRestTime
+        )
+        findNavController().navigate(R.id.action_timer_fragment_to_fragment_result, bundle)
+    }
+
+    // endregion
+
+    // region Broadcast receivers
 
     private val updateTotalTimerBroadcastReceiver: BroadcastReceiver =
         object : BroadcastReceiver() {
@@ -184,19 +213,22 @@ class TimerFragment : Fragment() {
             }
         }
 
-    private val updateRestTimerBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+    private val updateRestTimerBroadcastReceiver: BroadcastReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
 
-            if (timerMode == UserManager.TimerMode.PREDEFINED && time == 0.00) {
-                stopTimer()
-                binding.resumeButton.isInvisible = false
-                binding.textRest.isInvisible = true
-                vibrate()
+                if (timerMode == UserManager.TimerMode.PREDEFINED && time == 0.00) {
+                    stopTimer()
+                    binding.resumeButton.isInvisible = false
+                    binding.textRest.isInvisible = true
+                    vibrate()
+                }
+                totalRestTime++
+
+                binding.primaryTimer.text = time.getTimeStringFromDouble()
             }
-            totalRestTime++
-
-            binding.primaryTimer.text = time.getTimeStringFromDouble()
         }
-    }
+
+    // endregion
 }

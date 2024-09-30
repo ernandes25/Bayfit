@@ -32,6 +32,8 @@
     <string name="clock">00:00</string>
     <string name="rest_total">DESCANSO TOTAL</string>
     <string name="icon_clock">Ícone de Relógio</string>
+    <string name="icon_green_empty_view">Ícone verde da EmptyView</string>
+    <string name="no_registry">Sem registros ainda.</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.baysoftware.bayfit.home.view.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_historyListFragment"
+            app:destination="@id/historyListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/historyListFragment"
+        android:name="com.baysoftware.bayfit.history.view.HistoryListFragment"
+        android:label="Histórico"
+        tools:layout="@layout/fragment_history_list">
+        <action
+            android:id="@+id/action_historyListFragment_to_exerciseReportFragment"
+            app:destination="@id/exerciseReportFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/exerciseReportFragment"
+        android:name="com.baysoftware.bayfit.history.view.ExerciseReportFragment"
+        android:label="Detalhes do Exercício"
+        tools:layout="@layout/fragment_exercise_report">
+        <argument
+            android:name="session"
+            app:argType="com.baysoftware.bayfit.db.ExerciseSessionEntity" />
+    </fragment>
+
+</navigation>

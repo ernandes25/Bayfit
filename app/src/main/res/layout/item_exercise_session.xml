@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -15,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/data"
+            android:id="@+id/date_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
@@ -38,7 +37,7 @@
             android:textColor="@color/green"
             android:textSize="@dimen/text_size_timer_list"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/data" />
+            app:layout_constraintTop_toBottomOf="@+id/date_item"/>
 
         <View
             android:id="@+id/divider"
@@ -50,7 +49,7 @@
             android:background="@color/cardview_dark_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/duration" />
+            app:layout_constraintTop_toBottomOf="@+id/duration"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
