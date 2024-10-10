@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.savedstate.SavedStateRegistryOwner
 import com.baysoftware.bayfit.db.ExerciseDatabase
 import com.baysoftware.bayfit.db.ExerciseRepository

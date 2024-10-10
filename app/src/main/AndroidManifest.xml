@@ -16,15 +16,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".history.view.HistoryActivity"
-            android:exported="false"
-            android:taskAffinity=""/>
-        <activity
-            android:name=".running.view.RunningActivity"
-            android:exported="false"
-            android:taskAffinity="" />
-        <activity
-            android:name=".home.view.HomeActivity"
+            android:name=".HomeActivity"
             android:exported="true"
             android:taskAffinity="@string/common_open_on_phone">
             <intent-filter>
@@ -33,6 +25,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".history.view.HistoryListActivity"
+            android:exported="false"
+            android:taskAffinity=""/>
+
+        <activity
+            android:name=".history.view.HistoryExerciseReportActivity"
+            android:exported="false"
+            android:taskAffinity=""/>
+
+        <activity
+            android:name=".running.view.RunningTimerActivity"
+            android:exported="false"
+            android:taskAffinity="" />
+
+        <activity
+            android:name=".running.view.RunningResultActivity"
+            android:exported="false"
+            android:taskAffinity="" />
+
+        <activity
+            android:name=".settings.view.SettingsActivity"
+            android:exported="false"
+            android:taskAffinity="" />
+
+        <activity
+            android:name=".settings.view.SettingsTimerCountTypeActivity"
+            android:exported="false"
+            android:taskAffinity="" />
+
+        <activity
+            android:name=".settings.view.SettingsTimerSetterActivity"
+            android:exported="false"
+            android:taskAffinity="" />
 
         <service android:name=".running.service.IncreasingTimerService" />
         <service android:name=".running.service.DecreasingTimerService" />
@@ -44,6 +71,7 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
+
     </application>
 
 </manifest>
