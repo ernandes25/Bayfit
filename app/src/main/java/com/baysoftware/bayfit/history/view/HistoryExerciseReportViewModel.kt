@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HistoryListViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
+class HistoryExerciseReportViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
 
     companion object {
         /**
@@ -35,20 +35,20 @@ class HistoryListViewModel(private val exerciseRepository: ExerciseRepository) :
                 ): T {
                     val database = ExerciseDatabase.getDatabase(application)
                     val exerciseRepository = ExerciseRepository(database.exerciseSessionDAO())
-                    return HistoryListViewModel(exerciseRepository) as T
+                    return HistoryExerciseReportViewModel(exerciseRepository) as T
                 }
             }
     }
 
-    private val mutableExerciseSessions = MutableLiveData<List<ExerciseSessionModel>>()
-    val exerciseSessions: LiveData<List<ExerciseSessionModel>>
-        get() = mutableExerciseSessions
+    private val mutableExerciseSession = MutableLiveData<ExerciseSessionModel>()
+    val exerciseSession: LiveData<ExerciseSessionModel>
+        get() = mutableExerciseSession
 
-    init {
+    fun getSessionById(id: Long) {
         CoroutineScope(Dispatchers.IO).launch {
-            val sessions = exerciseRepository.getAllSessions()
+            val session = exerciseRepository.getSessionById(id)
             CoroutineScope(Dispatchers.Main).launch {
-                mutableExerciseSessions.value = sessions
+                mutableExerciseSession.value = session
             }
         }
     }

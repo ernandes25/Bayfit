@@ -3,6 +3,7 @@ package com.baysoftware.bayfit.history.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.baysoftware.bayfit.databinding.ActivityHistoryListBinding
@@ -11,9 +12,9 @@ class HistoryListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryListBinding
     private lateinit var adapter: ExerciseSessionAdapter
-//    private val viewModel: HistoryListViewModel by activityViewModels {
-//        HistoryListViewModel.provideFactory(this.application, this)
-//    }
+    private val viewModel: HistoryListViewModel by viewModels<HistoryListViewModel> {
+        HistoryListViewModel.provideFactory(this.application, this)
+    }
 
     // region Lifecycle methods
 
@@ -23,10 +24,10 @@ class HistoryListActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupRecyclerView()
 
-//        viewModel.exerciseSessions.observe(viewLifecycleOwner) { sessions -> // TODO: fix view model
-//            adapter.updateSessions(sessions)
-//            updateViewVisibility()
-//        }
+        viewModel.exerciseSessions.observe(this) { sessions ->
+            adapter.updateSessions(sessions)
+            updateViewVisibility()
+        }
     }
 
     // endregion
@@ -44,6 +45,7 @@ class HistoryListActivity : AppCompatActivity() {
             val bundle = Bundle()
             bundle.putLong("sessionId", session.id)
             val intent = Intent(this, HistoryExerciseReportActivity::class.java)
+            intent.putExtras(bundle)
             startActivity(intent)
         }
         binding.recyclerViewHistory.adapter = adapter

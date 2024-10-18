@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.baysoftware.bayfit.databinding.ActivityHistoryExerciseReportBinding
 import com.baysoftware.bayfit.history.model.ExerciseSessionModel
@@ -17,9 +18,9 @@ const val SESSION_ID = "sessionId"
 class HistoryExerciseReportActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryExerciseReportBinding
-//    private val viewModel: HistoryListViewModel by activityViewModels { // TODO: fix view model
-//        HistoryListViewModel.provideFactory(requireActivity().application, this)
-//    }
+    private val viewModel: HistoryExerciseReportViewModel by viewModels<HistoryExerciseReportViewModel> {
+        HistoryExerciseReportViewModel.provideFactory(this.application, this)
+    }
 
     // region Lifecycle methods
 
@@ -31,10 +32,12 @@ class HistoryExerciseReportActivity : AppCompatActivity() {
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
         val sessionId = intent.getLongExtra(SESSION_ID, 0)
-//        if (sessionId > 0) {
-//            val session = viewModel.getSessionById(sessionId)
-//            displaySessionDetails(session)
-//        }
+        if (sessionId > 0) {
+            viewModel.getSessionById(sessionId)
+            viewModel.exerciseSession.observe(this) { session ->
+                displaySessionDetails(session)
+            }
+        }
         return super.onCreateView(name, context, attrs)
     }
 
