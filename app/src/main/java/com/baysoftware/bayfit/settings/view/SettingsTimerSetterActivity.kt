@@ -1,11 +1,12 @@
 package com.baysoftware.bayfit.settings.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.baysoftware.bayfit.HomeActivity
 import com.baysoftware.bayfit.databinding.ActivitySettingsTimerSetterBinding
 import com.baysoftware.bayfit.preferences.UserManager
 import kotlinx.coroutines.launch
@@ -18,22 +19,15 @@ class SettingsTimerSetterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsTimerSetterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-
-        setupNumberPicker(context)
-
+        setupNumberPicker(this) // Mova a chamada aqui
         binding.ok.setOnClickListener {
-            saveTimerConfiguration(context)
+            saveTimerConfiguration(this)
             finish()
         }
-        return super.onCreateView(name, context, attrs)
     }
 
     private fun setupNumberPicker(context: Context) {
-        //TODO: consertar erro de não carrgar os valores do usuário após algumas tentativas
-
         lifecycleScope.launch {
             val user = UserManager.getInstance().readTimerConfiguration(context)
             binding.numberPickerMin.value = user.minute
