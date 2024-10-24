@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.baysoftware.bayfit.HomeActivity
 import com.baysoftware.bayfit.databinding.ActivitySettingsTimerCountTypeBinding
 import com.baysoftware.bayfit.preferences.UserManager
 import kotlinx.coroutines.launch
@@ -23,7 +22,8 @@ class SettingsTimerCountTypeActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         lifecycleScope.launch {
-            val restType = UserManager.getInstance().readTimerMode(this@SettingsTimerCountTypeActivity)
+            val restType =
+                UserManager.getInstance().readTimerMode(this@SettingsTimerCountTypeActivity)
 
             if (restType == UserManager.TimerMode.FREE) {
                 binding.radioButton1.isChecked = true
@@ -35,30 +35,29 @@ class SettingsTimerCountTypeActivity : AppCompatActivity() {
         binding.buttonOkcountType.setOnClickListener {
             lifecycleScope.launch {
 
-                //TODO Retirar criação de nova HomeActivity. Aproveita a que já está na pilha
-                //presquisar como visualizar a pilha de activitys
-                //Duas formas: - Pelo Android Studio 2 - Outras, verificar.
                 val selectedButton = if (binding.radioButton1.isChecked) {
-                    val intent = Intent(this@SettingsTimerCountTypeActivity, HomeActivity::class.java)
-                    startActivity(intent)
                     finish()
                     UserManager.TimerMode.FREE
                 } else if (binding.radioButton2.isChecked) {
-                    val intent = Intent(this@SettingsTimerCountTypeActivity, SettingsTimerSetterActivity::class.java)
+                    val intent = Intent(
+                        this@SettingsTimerCountTypeActivity,
+                        SettingsTimerSetterActivity::class.java
+                    )
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish() // Finaliza a atividade atual
                     UserManager.TimerMode.PREDEFINED
                 } else {
-                    Toast.makeText(this@SettingsTimerCountTypeActivity,
+                    Toast.makeText(
+                        this@SettingsTimerCountTypeActivity,
                         "Por favor, selecione uma opção",
-                        Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_SHORT
+                    ).show()
                     UserManager.TimerMode.UNDEFINED
                 }
                 UserManager.getInstance()
                     .saveTimerMode(this@SettingsTimerCountTypeActivity, selectedButton)
             }
-
         }
     }
 }

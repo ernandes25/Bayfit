@@ -25,6 +25,4 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
     }
-
-
 }

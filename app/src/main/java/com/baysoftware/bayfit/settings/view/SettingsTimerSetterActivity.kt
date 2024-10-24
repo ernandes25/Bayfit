@@ -1,12 +1,9 @@
 package com.baysoftware.bayfit.settings.view
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.baysoftware.bayfit.HomeActivity
 import com.baysoftware.bayfit.databinding.ActivitySettingsTimerSetterBinding
 import com.baysoftware.bayfit.preferences.UserManager
 import kotlinx.coroutines.launch
