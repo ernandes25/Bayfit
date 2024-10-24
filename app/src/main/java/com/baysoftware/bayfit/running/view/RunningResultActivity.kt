@@ -1,8 +1,6 @@
 package com.baysoftware.bayfit.running.view
 
-import android.content.Context
-import android.util.AttributeSet
-import android.view.View
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.baysoftware.bayfit.databinding.ActivityRunningResultBinding
 import com.baysoftware.bayfit.util.getTimeStringFromDouble
@@ -14,12 +12,17 @@ class RunningResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRunningResultBinding
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityRunningResultBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        setupViews()
+    }
+
+    private fun setupViews() {
         binding.buttonReturn.setOnClickListener { finish() }
         binding.timeEnd.text = intent.getStringExtra(END_TIME)
-        binding.restEnd.text = intent?.getDoubleExtra(END_TIME, 0.0)?.getTimeStringFromDouble()
-
-        return super.onCreateView(name, context, attrs)
+        binding.restEnd.text = intent?.getDoubleExtra(END_REST, 0.0)?.getTimeStringFromDouble()
     }
 }

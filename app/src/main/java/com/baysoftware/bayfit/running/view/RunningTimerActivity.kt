@@ -7,8 +7,6 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.AttributeSet
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -34,8 +32,8 @@ class RunningTimerActivity : AppCompatActivity() {
     private lateinit var restTimerServiceIntent: Intent
     private lateinit var timerMode: UserManager.TimerMode
     private var broadcastReceivers = mutableListOf<BroadcastReceiver>()
-    private val viewModel: TimerViewModel by viewModels {
-        TimerViewModel.provideFactory(this.application, this)
+    private val viewModel: RunningTimerViewModel by viewModels {
+        RunningTimerViewModel.provideFactory(this.application, this)
     }
 
     private var totalRestTime = 0.00
@@ -43,33 +41,66 @@ class RunningTimerActivity : AppCompatActivity() {
     private var increasingTime = 0.00
     private var isResting = false
 
-    // region Lifecycle methods
+    private val updateTotalTimerBroadcastReceiver: BroadcastReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                increasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+                val time = increasingTime.getTimeStringFromDouble()
+                if (isResting) {
+                    binding.secondaryTimer.text = time
+                } else {
+                    binding.primaryTimer.text = time
+                }
+            }
+        }
+
+    private val updateRestTimerBroadcastReceiver: BroadcastReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
+
+                if (timerMode == UserManager.TimerMode.PREDEFINED && time == 0.00) {
+                    stopTimer()
+                    binding.resumeButton.isInvisible = false
+                    binding.textRest.isInvisible = true
+                    vibrate()
+                }
+                totalRestTime++
+
+                binding.primaryTimer.text = time.getTimeStringFromDouble()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRunningTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupTimer()
+        setupRestTimer()
+        setupListeners()
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-
+    private fun setupTimer() {
         // Iniciando contador de tempo total
-        totalTimerServiceIntent = Intent(context, TotalTimerService::class.java)
+        totalTimerServiceIntent = Intent(this, TotalTimerService::class.java)
         totalTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, increasingTime)
         registerReceiver(
-            context,
+            this,
             updateTotalTimerBroadcastReceiver,
             IntentFilter(TotalTimerService.TIMER_UPDATE),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
-        context.startService(totalTimerServiceIntent)
+        this.startService(totalTimerServiceIntent)
         broadcastReceivers.add(updateTotalTimerBroadcastReceiver)
 
         viewModel.startSession()
+    }
 
+    private fun setupRestTimer() {
         // Iniciando contador de tempo de descanso
         lifecycleScope.launch {
-            timerMode = UserManager.getInstance().readTimerMode(context)
+            timerMode = UserManager.getInstance().readTimerMode(this@RunningTimerActivity)
             when (timerMode) {
                 UserManager.TimerMode.FREE,
                 UserManager.TimerMode.UNDEFINED -> {
@@ -77,7 +108,7 @@ class RunningTimerActivity : AppCompatActivity() {
                     // CRESCENTE, portanto não há necessidade de consultar o DataStore para obter tempo
                     // informado pelo usuário.
                     restTimerServiceIntent =
-                        Intent(context, IncreasingTimerService::class.java)
+                        Intent(this@RunningTimerActivity, IncreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, 0.0)
                 }
 
@@ -86,17 +117,15 @@ class RunningTimerActivity : AppCompatActivity() {
                     // seja DECRESCENTE, e o valor padrão deve ser obtido do DataStore, que por sua vez
                     // foi informado pelo usuário.
                     val timerConfiguration =
-                        UserManager.getInstance().readTimerConfiguration(context)
+                        UserManager.getInstance().readTimerConfiguration(this@RunningTimerActivity)
                     restTime =
                         timerConfiguration.minute.toDouble() * 60 + timerConfiguration.second.toDouble()
                     restTimerServiceIntent =
-                        Intent(context, DecreasingTimerService::class.java)
+                        Intent(this@RunningTimerActivity, DecreasingTimerService::class.java)
                     restTimerServiceIntent.putExtra(TimerService.TIME_EXTRA, restTime)
                 }
             }
         }
-        setupListeners()
-        return super.onCreateView(name, context, attrs)
     }
 
     private fun setupListeners() {
@@ -113,10 +142,6 @@ class RunningTimerActivity : AppCompatActivity() {
         binding.pauseButton.setOnClickListener { pauseTimer() }
         binding.resumeButton.setOnClickListener { resumeTraining() }
     }
-
-    // endregion
-
-    // region Timer control methods
 
     private fun vibrate(duration: Long = 500) {
         val vibrator = this.getSystemService() as? Vibrator
@@ -154,6 +179,8 @@ class RunningTimerActivity : AppCompatActivity() {
     private fun resumeTraining() {
         isResting = false
         this.stopService(restTimerServiceIntent)
+        broadcastReceivers.remove(updateRestTimerBroadcastReceiver)
+
         binding.resumeButton.isInvisible = true
         binding.pauseButton.isInvisible = false
         binding.primaryTimer.setTextColor(resources.getColor(R.color.white, null))
@@ -174,6 +201,7 @@ class RunningTimerActivity : AppCompatActivity() {
 
     private fun stopTimer() {
         this.stopService(restTimerServiceIntent)
+        this.broadcastReceivers.remove(updateRestTimerBroadcastReceiver)
         isResting = true
     }
 
@@ -193,45 +221,9 @@ class RunningTimerActivity : AppCompatActivity() {
             END_TIME to binding.secondaryTimer.text,
             END_REST to totalRestTime
         )
-
         val intent = Intent(this, RunningResultActivity::class.java)
         intent.putExtras(bundle)
         startActivity(intent)
+        finish()
     }
-
-    // endregion
-
-    // region Broadcast receivers
-
-    private val updateTotalTimerBroadcastReceiver: BroadcastReceiver =
-        object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                increasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-                val time = increasingTime.getTimeStringFromDouble()
-                if (isResting) {
-                    binding.secondaryTimer.text = time
-                } else {
-                    binding.primaryTimer.text = time
-                }
-            }
-        }
-
-    private val updateRestTimerBroadcastReceiver: BroadcastReceiver =
-        object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                val time = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
-
-                if (timerMode == UserManager.TimerMode.PREDEFINED && time == 0.00) {
-                    stopTimer()
-                    binding.resumeButton.isInvisible = false
-                    binding.textRest.isInvisible = true
-                    vibrate()
-                }
-                totalRestTime++
-
-                binding.primaryTimer.text = time.getTimeStringFromDouble()
-            }
-        }
-
-    // endregion
 }
