@@ -13,7 +13,7 @@ import com.baysoftware.bayfit.history.model.ExerciseSessionModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class TimerViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
+class RunningTimerViewModel(private val exerciseRepository: ExerciseRepository) : ViewModel() {
 
     companion object {
         /**
@@ -33,7 +33,7 @@ class TimerViewModel(private val exerciseRepository: ExerciseRepository) : ViewM
                 ): T {
                     val database = ExerciseDatabase.getDatabase(application)
                     val exerciseRepository = ExerciseRepository(database.exerciseSessionDAO())
-                    return TimerViewModel(exerciseRepository) as T
+                    return RunningTimerViewModel(exerciseRepository) as T
                 }
             }
     }
