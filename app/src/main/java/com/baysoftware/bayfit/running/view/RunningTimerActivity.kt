@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -46,6 +47,9 @@ class RunningTimerActivity : AppCompatActivity() {
             override fun onReceive(context: Context, intent: Intent) {
                 increasingTime = intent.getDoubleExtra(TimerService.TIME_EXTRA, 0.0)
                 val time = increasingTime.getTimeStringFromDouble()
+                Log.d("TimerFragment", "Increasing Time: $increasingTime")
+                Log.d("TimerFragment", "Formatted Time: $time")
+
                 if (isResting) {
                     binding.secondaryTimer.text = time
                 } else {
@@ -218,7 +222,11 @@ class RunningTimerActivity : AppCompatActivity() {
 
         // Navega para a tela de resultados
         val bundle = bundleOf(
-            END_TIME to binding.secondaryTimer.text,
+
+            /*    END_TIME to binding.secondaryTimer.text,
+                END_REST to totalRestTime*/
+
+            END_TIME to increasingTime.getTimeStringFromDouble(),  // Modificação aqui(20/11)
             END_REST to totalRestTime
         )
         val intent = Intent(this, RunningResultActivity::class.java)
