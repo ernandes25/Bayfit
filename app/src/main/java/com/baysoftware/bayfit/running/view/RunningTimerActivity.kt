@@ -69,6 +69,11 @@ class RunningTimerActivity : AppCompatActivity() {
                     binding.textRest.isInvisible = true
                     vibrate()
                 }
+
+                if (time <= 5.0 && time > 0.0) {
+                    vibrate(500)
+                }
+
                 totalRestTime++
 
                 binding.primaryTimer.text = time.getTimeStringFromDouble()
